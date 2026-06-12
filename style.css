@@ -1,0 +1,599 @@
+/*
+  Program name: style.css
+  Author: [Your Name as it appears in UH roster]
+  Date created: 2025-01-01
+  Date last edited: 2025-01-01
+  Version: 1.0
+  Description: External stylesheet for the MIS 3371 Patient Registration Form.
+               Defines layout, color palette, typography, and responsive behavior
+               for ClearPath Medical patient-facing registration pages.
+               Selectors demonstrate tag-based, class-based, ID-based, and
+               name attribute-based targeting methods.
+*/
+
+/* =====================================================================
+   GOOGLE FONTS IMPORT
+   Using Merriweather (display/headings) + Source Sans 3 (body copy).
+   These are deliberately non-default choices for a professional medical
+   context — serif authority for headings, clean humanist sans for forms.
+   ===================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+/* =====================================================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   Centralizes all color and spacing so changes are made in one place.
+   ===================================================================== */
+:root {
+  --color-primary:    #1a4a6b;   /* Deep navy — trust, clinical authority */
+  --color-accent:     #2e9e8f;   /* Teal — health, vitality, modern medicine */
+  --color-accent-lt:  #d4f0ec;   /* Pale teal — subtle highlights            */
+  --color-bg:         #eef3f7;   /* Cool light blue-grey background           */
+  --color-surface:    #ffffff;   /* White card/form surfaces                  */
+  --color-border:     #b8cdd9;   /* Muted blue-grey borders                   */
+  --color-text:       #1c2b36;   /* Near-black body text                      */
+  --color-muted:      #5a7080;   /* Secondary / label text                    */
+  --color-danger:     #c0392b;   /* Required indicator / error state          */
+  --color-footer-bg:  #1a4a6b;   /* Matches primary for footer                */
+  --color-footer-txt: #cfe4f0;   /* Light text on dark footer                 */
+
+  --font-heading: 'Merriweather', Georgia, serif;
+  --font-body:    'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+
+  --radius: 6px;
+  --shadow: 0 2px 8px rgba(26,74,107,0.10);
+}
+
+/* =====================================================================
+   RESET & BASE  (tag-based selectors)
+   ===================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+/* tag selector: body */
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =====================================================================
+   TYPOGRAPHY  (tag-based selectors)
+   ===================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  line-height: 1.25;
+}
+
+h1 { font-size: 2rem;   font-weight: 700; }
+h2 { font-size: 1.5rem; font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+
+p { margin-bottom: 0.75rem; }
+
+/* tag selector: a (hyperlinks) */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* pseudo-class selector: visited hyperlinks */
+a:visited {
+  color: #1a7a6b;
+}
+
+a:hover, a:focus {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* =====================================================================
+   LAYOUT WRAPPERS  (class-based selectors)
+   ===================================================================== */
+.page-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+  flex: 1;
+}
+
+/* =====================================================================
+   BANNER / HEADER  (#id-based selector)
+   ===================================================================== */
+#site-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #226a9a 100%);
+  color: #fff;
+  padding: 0;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+/* class selector */
+.banner-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.banner-logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.banner-logo-area img {
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  background: #fff;
+  padding: 4px;
+  object-fit: contain;
+}
+
+.banner-company-name {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.banner-tagline {
+  font-size: 0.85rem;
+  color: var(--color-accent-lt);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ID selector for the dynamic date display */
+#dynamic-date {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-accent-lt);
+  text-align: right;
+  line-height: 1.5;
+}
+
+#dynamic-date strong {
+  font-size: 1rem;
+  color: #fff;
+  display: block;
+}
+
+/* =====================================================================
+   NAVIGATION BREADCRUMB  (class selector)
+   ===================================================================== */
+.breadcrumb {
+  background-color: var(--color-accent-lt);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.45rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.breadcrumb a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* =====================================================================
+   MAIN CONTENT AREA  (tag-based)
+   ===================================================================== */
+main {
+  padding: 2rem 0 2.5rem;
+  flex: 1;
+}
+
+/* =====================================================================
+   FORM CARD  (class selector)
+   ===================================================================== */
+.form-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-card h2 {
+  margin-bottom: 0.25rem;
+}
+
+.form-intro {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-accent-lt);
+  padding-bottom: 1rem;
+}
+
+/* =====================================================================
+   SECTION DIVIDERS within the form  (class selector)
+   ===================================================================== */
+.form-section {
+  margin-bottom: 1.75rem;
+}
+
+.form-section h3 {
+  color: var(--color-primary);
+  background: var(--color-accent-lt);
+  border-left: 4px solid var(--color-accent);
+  padding: 0.45rem 0.75rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+
+/* =====================================================================
+   TABLE LAYOUT FOR FORM FIELDS  (tag selector: table)
+   ===================================================================== */
+table.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.form-table td {
+  padding: 0.5rem 0.6rem;
+  vertical-align: middle;
+}
+
+/* class selector: label cells */
+td.field-label {
+  width: 38%;
+  text-align: right;
+  padding-right: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+td.field-input {
+  width: 62%;
+}
+
+/* =====================================================================
+   FORM INPUT ELEMENTS  (tag selectors + name-based attribute selector)
+   ===================================================================== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.45rem 0.65rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--color-text);
+  background: #f8fbfd;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(46,158,143,0.18);
+  background: #fff;
+}
+
+/* Name-based attribute selector — slightly narrower for middle initial */
+input[name="middle_initial"] {
+  width: 3.2rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Name-based attribute selector — SSN field */
+input[name="ssn"] {
+  letter-spacing: 0.12em;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+}
+
+/* tag selector: textarea */
+textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* tag selector: select */
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231a4a6b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+}
+
+/* =====================================================================
+   RANGE / SLIDER  (tag + type attribute selector)
+   ===================================================================== */
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-top: 0.2rem;
+}
+
+#health-score-display {
+  font-weight: 700;
+  color: var(--color-accent);
+  font-size: 1.15rem;
+  margin-left: 0.5rem;
+}
+
+/* =====================================================================
+   CHECKBOXES AND RADIO BUTTONS  (class selectors)
+   ===================================================================== */
+.check-group,
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  padding: 0.4rem 0;
+}
+
+.check-group label,
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--color-text);
+  font-weight: 400;
+}
+
+/* name-attribute selector for checkboxes */
+input[name="conditions"] {
+  accent-color: var(--color-accent);
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+/* name-attribute selectors for radio buttons */
+input[name="gender"],
+input[name="vaccinated"],
+input[name="has_insurance"],
+input[name="smoker"] {
+  accent-color: var(--color-primary);
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+/* =====================================================================
+   REQUIRED FIELD INDICATOR  (class selector)
+   ===================================================================== */
+.required {
+  color: var(--color-danger);
+  margin-left: 2px;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-top: 0.2rem;
+  font-style: italic;
+}
+
+/* =====================================================================
+   BUTTONS  (class selectors + type attribute selectors)
+   ===================================================================== */
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* class selector: base button */
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.65rem 1.75rem;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  letter-spacing: 0.03em;
+}
+
+/* class + modifier: primary submit button */
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: #247d70;
+  border-color: #247d70;
+}
+
+/* class + modifier: secondary/reset button */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* =====================================================================
+   FOOTER  (#id-based selector)
+   ===================================================================== */
+#site-footer {
+  background: var(--color-footer-bg);
+  color: var(--color-footer-txt);
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* class selector: footer company info block */
+.footer-company {
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.footer-company strong {
+  font-size: 1rem;
+  font-family: var(--font-heading);
+  color: #fff;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* class selector: footer contact button */
+.footer-contact-btn {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1.35rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.footer-contact-btn:hover {
+  background: #247d70;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.footer-social a {
+  color: var(--color-accent-lt);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-social a:hover {
+  color: #fff;
+}
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: #8aafc4;
+  text-align: center;
+  padding-top: 0.75rem;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 1rem;
+}
+
+/* =====================================================================
+   UTILITY CLASSES
+   ===================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+.text-center { text-align: center; }
+.mt-sm  { margin-top: 0.5rem; }
+.mt-md  { margin-top: 1rem; }
+
+/* =====================================================================
+   INLINE FLEX HELPER for fields on the same row (e.g. First/MI/Last)
+   ===================================================================== */
+.inline-fields {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.inline-fields input {
+  flex: 1 1 auto;
+}
+
+.inline-fields input[name="middle_initial"] {
+  flex: 0 0 3.2rem;
+}
+
+.inline-fields label.sub-label {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* =====================================================================
+   END OF stylesheet
+   ===================================================================== */
