@@ -1,0 +1,146 @@
+<!--
+  Program name:   thankyou.html
+  Author:         [Your Name as it appears in UH roster]
+  Date created:   2025-01-01
+  Date last edited: 2025-01-01
+  Version:        1.0
+  Description:    Confirmation / Thank You page for ClearPath Medical.
+                  Displayed after a successful patient registration form
+                  submission. Shares the same header, footer, and external
+                  CSS as patient-form.html to maintain a consistent look.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ClearPath Medical – Registration Confirmation">
+  <title>Registration Received | ClearPath Medical</title>
+
+  <!-- Same external CSS as the main form page -->
+  <link href="style.css" rel="stylesheet">
+
+  <!-- Small override: center the thank-you content -->
+  <style>
+    .thankyou-card { text-align: center; padding: 3.5rem 2rem; }
+    .thankyou-card .icon { font-size: 4rem; margin-bottom: 1rem; }
+    .thankyou-card h2 { margin-bottom: 0.5rem; }
+    .thankyou-card p  { color: #5a7080; max-width: 480px; margin: 0 auto 1.5rem; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================================================================
+       HEADER / BANNER  (same as patient-form.html)
+  ================================================================ -->
+  <header id="site-header">
+    <div class="banner-inner">
+
+      <div class="banner-logo-area">
+        <img
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%232e9e8f'/%3E%3Crect x='28' y='16' width='8' height='32' rx='2' fill='white'/%3E%3Crect x='16' y='28' width='32' height='8' rx='2' fill='white'/%3E%3Cpolyline points='6,40 14,40 18,30 22,48 26,36 30,42 34,32 38,42 42,36 46,48 50,30 54,40 58,40' stroke='%23d4f0ec' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+          alt="ClearPath Medical logo"
+          width="64" height="64">
+        <div>
+          <div class="banner-company-name">ClearPath Medical</div>
+          <div class="banner-tagline">Your health, clearly in your hands</div>
+        </div>
+      </div>
+
+      <div id="dynamic-date">
+        <strong id="date-display">Loading date&hellip;</strong>
+        <span>Patient Portal</span>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="patient-form.html">New Patient Registration</a> &rsaquo; Confirmation
+  </div>
+
+  <!-- ================================================================
+       MAIN CONTENT — Thank You message
+  ================================================================ -->
+  <main>
+    <div class="page-wrapper">
+      <div class="form-card">
+        <div class="thankyou-card">
+          <div class="icon">&#10003;</div>
+          <h2>Thank you for your submission!</h2>
+          <p>
+            Your patient registration has been received by ClearPath Medical.
+            A member of our team will contact you within one business day to
+            confirm your information and schedule your first appointment.
+          </p>
+          <p>
+            If you have any immediate questions, please use the
+            <strong>Contact Us</strong> button below or call us at
+            <a href="tel:+17135550199">(713) 555-0199</a>.
+          </p>
+          <a href="patient-form.html" class="btn btn-secondary">
+            &larr; Return to Registration Form
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================================================================
+       FOOTER  (same as patient-form.html)
+  ================================================================ -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div class="footer-company">
+        <strong>ClearPath Medical</strong>
+        3200 Southwest Freeway, Suite 400<br>
+        Houston, TX &nbsp;77027<br>
+        <a href="tel:+17135550199" style="color:#8aafc4;">(713) 555-0199</a>
+      </div>
+      <div>
+        <button
+          class="footer-contact-btn"
+          onclick="alert('Thank you for reaching out! Please call (713) 555-0199 or email info@clearpathmedical.example.');"
+          type="button">
+          ✉ Contact Us
+        </button>
+      </div>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook" >Facebook</a>
+        <a href="#" aria-label="Twitter/X">Twitter / X</a>
+        <a href="#" aria-label="LinkedIn" >LinkedIn</a>
+      </div>
+    </div>
+    <p class="footer-copy">
+      &copy; <span id="footer-year"></span> ClearPath Medical. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- Dynamic date script (same as main form page) -->
+  <script>
+    (function displayDynamicDate() {
+      var days   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      var months = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"];
+      var now     = new Date();
+      var dayName = days[now.getDay()];
+      var month   = months[now.getMonth()];
+      var date    = now.getDate();
+      var year    = now.getFullYear();
+      function ordinal(n) {
+        var s = ["th","st","nd","rd"];
+        var v = n % 100;
+        return n + (s[(v - 20) % 10] || s[v] || s[0]);
+      }
+      var el = document.getElementById("date-display");
+      if (el) { el.textContent = "Today is: " + dayName + ", " + month + " " + ordinal(date) + ", " + year; }
+      var yearEl = document.getElementById("footer-year");
+      if (yearEl) { yearEl.textContent = year; }
+    })();
+  </script>
+
+  <!-- END OF DOCUMENT: thankyou.html -->
+</body>
+</html>
