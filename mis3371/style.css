@@ -13,7 +13,7 @@
    GLOBAL / TAG SELECTORS
    ====================================================== */
 
-/* Set a non-default font and background for the whole page */
+/* Non-default font and background for the whole page */
 body {
     font-family: Georgia, 'Times New Roman', serif;
     background-color: #eaf3f8;
