@@ -1,0 +1,493 @@
+<!--
+    Program name: index.html
+    Author: Ryan Perez
+    Date created: 06/15/2026
+    Date last edited: 06/24/2026
+    Version: 5.0
+    Description: HW2 update of the patient registration form for
+                 Ryan's Chiropractic Pseudoscience. Added title attributes
+                 to every field, regex pattern matching on inputs, a Review
+                 button that shows all entered data on the same page, live
+                 password validation, and an external JS file (scripts.js).
+                 The form still submits to thankyou.html when all is good.
+
+    Note on sources: regex patterns for email and phone are common,
+    well-known patterns that show up in basically every HTML forms tutorial.
+    I referenced w3schools.com/html/html_form_attributes.asp and
+    w3schools.com/jsref/jsref_regexp_test.asp for syntax help.
+    The state dropdown list is just the 50 US states - not something
+    anyone can claim as original. I typed it myself.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration | Ryan's Chiropractic Pseudoscience</title>
+    <link href="style.css" rel="stylesheet">
+    <!-- external JS file - professor asked we move all scripts here for HW2 -->
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+
+<!-- ==================== HEADER / BANNER ==================== -->
+<div id="banner">
+    <div id="logo-area">
+        <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80" aria-label="Company logo">
+            <!-- spine column -->
+            <rect x="33" y="5"  width="14" height="70" rx="4" fill="#ffffff" opacity="0.9"/>
+            <!-- vertebra discs -->
+            <rect x="27" y="12" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="24" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="36" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="48" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="60" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <!-- cross arms -->
+            <rect x="10" y="33" width="60" height="14" rx="4" fill="#ffffff" opacity="0.9"/>
+            <!-- center circle -->
+            <circle cx="40" cy="40" r="7" fill="#1a5f8a"/>
+        </svg>
+    </div>
+    <div id="banner-text">
+        <h1>Ryan's Chiropractic Pseudoscience</h1>
+        <p id="tagline"><em>Healing you have to believe to feel.</em></p>
+        <p id="banner-date">Today is: <span id="dynamic-date"></span></p>
+    </div>
+</div>
+
+<!-- date script stays inline here since it runs immediately on page load
+     before the body is fully built - moved the rest to scripts.js -->
+<script>
+    var days   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var months = ["January","February","March","April","May","June",
+                  "July","August","September","October","November","December"];
+    var now    = new Date();
+    var day    = days[now.getDay()];
+    var month  = months[now.getMonth()];
+    var date   = now.getDate();
+    var year   = now.getFullYear();
+    var suffix = "th";
+    if (date === 1 || date === 21 || date === 31) suffix = "st";
+    else if (date === 2 || date === 22)           suffix = "nd";
+    else if (date === 3 || date === 23)           suffix = "rd";
+    document.getElementById("dynamic-date").textContent =
+        day + ", " + month + " " + date + suffix + ", " + year;
+</script>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<div id="main-content">
+
+    <h2>Patient Portal &mdash; New Patient Registration</h2>
+    <p class="intro-note">
+        Please complete all required fields (marked <span class="required-star">*</span>) accurately.<br>
+        Your information will be kept strictly confidential in accordance with HIPAA regulations.
+    </p>
+
+    <form action="thankyou.html" id="registration-form" onsubmit="return validateForm(event)">
+
+        <!-- ===== SECTION 1: PERSONAL INFORMATION ===== -->
+        <h3 class="section-heading">1 &mdash; Personal Information</h3>
+        <table class="form-table">
+
+            <tr>
+                <td class="label-cell">
+                    <label for="fname">Full Name <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!-- pattern: letters, apostrophes, dashes only per HW2 spec
+                         Reference: w3schools.com/html/html_form_attributes.asp (pattern attribute) -->
+                    <input type="text" id="fname" name="fname"
+                           placeholder="First" maxlength="30" minlength="1" required
+                           pattern="[A-Za-z'\-]+"
+                           title="First name: letters, apostrophes, and dashes only (up to 30 characters)">
+                    &nbsp;
+                    <input type="text" id="mi" name="mi"
+                           placeholder="M.I." maxlength="1" class="mi-field"
+                           pattern="[A-Za-z]"
+                           title="Middle initial: one letter only (optional)">
+                    &nbsp;
+                    <!-- last name allows numbers for suffixes like "the 3rd" -->
+                    <input type="text" id="lname" name="lname"
+                           placeholder="Last" maxlength="30" minlength="1" required
+                           pattern="[A-Za-z0-9'\-\s]+"
+                           title="Last name: letters, numbers (e.g. 3rd), apostrophes, and dashes only">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <label for="dob">Date of Birth <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <input type="text" id="dob" name="dob"
+                           placeholder="MM/DD/YYYY" maxlength="10" minlength="10" required
+                           pattern="\d{2}/\d{2}/\d{4}"
+                           title="Enter your date of birth in MM/DD/YYYY format. Cannot be in the future or more than 120 years ago."
+                           onblur="checkDOB()">
+                    <!-- error message spot for DOB - JS writes into this span -->
+                    <br><span id="dob-msg" class="field-note"></span>
+                </td>
+            </tr>
+
+            <!-- SSN stays as password type so it shows as dots -->
+            <tr>
+                <td class="label-cell">
+                    <label for="ssn">Social Security No. <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <input type="password" id="ssn" name="ssn"
+                           placeholder="XXX-XX-XXXX" maxlength="11" minlength="9" required
+                           pattern="\d{3}-?\d{2}-?\d{4}"
+                           title="Social Security Number in XXX-XX-XXXX format. Entry will be hidden. Do NOT enter your real SSN while testing.">
+                    <span class="field-note">(Do not enter your real SSN while testing)</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">Gender <span class="required-star">*</span></td>
+                <td class="input-cell">
+                    <label class="radio-label">
+                        <input type="radio" name="gender" value="Male" required
+                               title="Select your gender"> Male
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="gender" value="Female"
+                               title="Select your gender"> Female
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="gender" value="Non-Binary"
+                               title="Select your gender"> Non-Binary
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="gender" value="Prefer Not To Say"
+                               title="Select your gender"> Prefer Not To Say
+                    </label>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- ===== SECTION 2: CONTACT INFORMATION ===== -->
+        <h3 class="section-heading">2 &mdash; Contact Information</h3>
+        <table class="form-table">
+
+            <tr>
+                <td class="label-cell">
+                    <label for="email">Email Address <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!-- basic email pattern, very common - same one on w3schools forms page -->
+                    <input type="email" id="email" name="email"
+                           placeholder="name@domain.com" maxlength="80" required
+                           title="Enter a valid email address in name@domain.com format">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <label for="phone">Phone Number <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!-- pattern enforces 000-000-0000 format per HW2 spec -->
+                    <input type="tel" id="phone" name="phone"
+                           placeholder="000-000-0000" maxlength="12" required
+                           pattern="\d{3}-\d{3}-\d{4}"
+                           title="Phone number in 000-000-0000 format">
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- ===== SECTION 3: ADDRESS ===== -->
+        <h3 class="section-heading">3 &mdash; Address</h3>
+        <table class="form-table">
+
+            <tr>
+                <td class="label-cell">
+                    <label for="addr1">Address Line 1 <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <input type="text" id="addr1" name="addr1"
+                           placeholder="Street address" maxlength="30" minlength="2" required
+                           title="Street address (2 to 30 characters)">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <label for="addr2">Address Line 2</label>
+                </td>
+                <td class="input-cell">
+                    <input type="text" id="addr2" name="addr2"
+                           placeholder="Apt, Suite, etc. (optional)" maxlength="30"
+                           title="Apartment, suite, or unit number (optional, up to 30 characters)">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <label for="city">City / State / ZIP <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <input type="text" id="city" name="city"
+                           placeholder="City" maxlength="30" minlength="2" required
+                           title="City name (2 to 30 characters)">
+
+                    <select id="state" name="state" required
+                            title="Select your state from the dropdown">
+                        <option value="">-- State --</option>
+                        <option value="AL">AL</option><option value="AK">AK</option>
+                        <option value="AZ">AZ</option><option value="AR">AR</option>
+                        <option value="CA">CA</option><option value="CO">CO</option>
+                        <option value="CT">CT</option><option value="DE">DE</option>
+                        <option value="DC">DC</option><option value="FL">FL</option>
+                        <option value="GA">GA</option><option value="HI">HI</option>
+                        <option value="ID">ID</option><option value="IL">IL</option>
+                        <option value="IN">IN</option><option value="IA">IA</option>
+                        <option value="KS">KS</option><option value="KY">KY</option>
+                        <option value="LA">LA</option><option value="ME">ME</option>
+                        <option value="MD">MD</option><option value="MA">MA</option>
+                        <option value="MI">MI</option><option value="MN">MN</option>
+                        <option value="MS">MS</option><option value="MO">MO</option>
+                        <option value="MT">MT</option><option value="NE">NE</option>
+                        <option value="NV">NV</option><option value="NH">NH</option>
+                        <option value="NJ">NJ</option><option value="NM">NM</option>
+                        <option value="NY">NY</option><option value="NC">NC</option>
+                        <option value="ND">ND</option><option value="OH">OH</option>
+                        <option value="OK">OK</option><option value="OR">OR</option>
+                        <option value="PA">PA</option><option value="PR">PR</option>
+                        <option value="RI">RI</option><option value="SC">SC</option>
+                        <option value="SD">SD</option><option value="TN">TN</option>
+                        <option value="TX" selected>TX</option>
+                        <option value="UT">UT</option><option value="VT">VT</option>
+                        <option value="VA">VA</option><option value="WA">WA</option>
+                        <option value="WV">WV</option><option value="WI">WI</option>
+                        <option value="WY">WY</option>
+                    </select>
+
+                    <!-- zip: 5 digits required, allows zip+4 format, type=text not number -->
+                    <input type="text" id="zip" name="zip"
+                           placeholder="ZIP" maxlength="10" minlength="5" required
+                           class="zip-field"
+                           pattern="\d{5}(-\d{4})?"
+                           title="ZIP code: 5 digits, or ZIP+4 format (e.g. 77002-1234). Not a number field.">
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- ===== SECTION 4: HEALTH & CHOICES ===== -->
+        <h3 class="section-heading">4 &mdash; Health Information</h3>
+        <table class="form-table">
+
+            <tr>
+                <td class="label-cell">
+                    <label for="symptoms">Describe Current Symptoms</label>
+                </td>
+                <td class="input-cell">
+                    <!-- optional per HW2 spec, but watch out for double quotes -->
+                    <textarea id="symptoms" name="symptoms" rows="3" cols="50"
+                              placeholder="Please describe your current symptoms..."
+                              title="Optional: describe what brought you in today. Avoid using double-quote characters."></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">Previous Diagnoses</td>
+                <td class="input-cell">
+                    <p class="checkbox-prompt">Check all conditions you have been diagnosed with:</p>
+                    <label class="check-label">
+                        <input type="checkbox" name="conditions" value="Hypertension"
+                               title="Check if you have been diagnosed with hypertension"> Hypertension
+                    </label><br>
+                    <label class="check-label">
+                        <input type="checkbox" name="conditions" value="Asthma"
+                               title="Check if you have been diagnosed with asthma"> Asthma
+                    </label><br>
+                    <label class="check-label">
+                        <input type="checkbox" name="conditions" value="Arthritis"
+                               title="Check if you have been diagnosed with arthritis"> Arthritis
+                    </label><br>
+                    <label class="check-label">
+                        <input type="checkbox" name="conditions" value="Diabetes"
+                               title="Check if you have been diagnosed with diabetes"> Diabetes
+                    </label><br>
+                    <label class="check-label">
+                        <input type="checkbox" name="conditions" value="Heart Disease"
+                               title="Check if you have been diagnosed with heart disease"> Heart Disease
+                    </label><br>
+                    <label class="check-label">
+                        <input type="checkbox" name="conditions" value="None of the Above"
+                               title="Check this if none of the conditions above apply"> None of the Above
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">Are you fully vaccinated? <span class="required-star">*</span></td>
+                <td class="input-cell">
+                    <label class="radio-label">
+                        <input type="radio" name="vaccinated" value="Yes" required
+                               title="Select your vaccination status"> Yes
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="vaccinated" value="No"
+                               title="Select your vaccination status"> No
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="vaccinated" value="Partially"
+                               title="Select your vaccination status"> Partially
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">Do you have health insurance? <span class="required-star">*</span></td>
+                <td class="input-cell">
+                    <label class="radio-label">
+                        <input type="radio" name="insurance" value="Yes" required
+                               title="Select whether you have health insurance"> Yes
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="insurance" value="No"
+                               title="Select whether you have health insurance"> No
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">Do you currently smoke? <span class="required-star">*</span></td>
+                <td class="input-cell">
+                    <label class="radio-label">
+                        <input type="radio" name="smoker" value="Yes" required
+                               title="Select your smoking status"> Yes
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="smoker" value="No"
+                               title="Select your smoking status"> No
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="smoker" value="Former Smoker"
+                               title="Select your smoking status"> Former Smoker
+                    </label>
+                </td>
+            </tr>
+
+            <!-- Slider - oninput calls the function in scripts.js -->
+            <tr>
+                <td class="label-cell">
+                    <label for="health-rating">Overall Health (self-rated)</label>
+                </td>
+                <td class="input-cell">
+                    <span class="slider-label">1 - Very Poor</span>
+                    <input type="range" id="health-rating" name="health_rating"
+                           min="1" max="10" value="5"
+                           oninput="updateSlider(this.value)"
+                           title="Slide to rate your overall health from 1 (very poor) to 10 (excellent)">
+                    <span class="slider-label">10 - Excellent</span>
+                    <br>
+                    <!-- this span gets updated live by updateSlider() in scripts.js -->
+                    <span class="field-note">Current: <span id="rating-display">5</span> / 10</span>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- ===== SECTION 5: ACCOUNT CREDENTIALS ===== -->
+        <h3 class="section-heading">5 &mdash; Account Credentials</h3>
+        <table class="form-table">
+
+            <tr>
+                <td class="label-cell">
+                    <label for="username">Desired Username <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!-- onblur calls checkUsername() in scripts.js which also lowercases it -->
+                    <input type="text" id="username" name="username"
+                           placeholder="Choose a username" maxlength="30" minlength="5" required
+                           pattern="[a-zA-Z][a-zA-Z0-9_\-]{4,29}"
+                           title="5 to 30 characters. Must start with a letter. Only letters, numbers, underscores, and dashes allowed. No spaces. Will be converted to lowercase."
+                           onblur="checkUsername()">
+                    <br><span id="username-msg" class="field-note"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <label for="password">Password <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!-- oninput calls checkPassword() in scripts.js for live feedback -->
+                    <input type="password" id="password" name="password"
+                           placeholder="Create a password" maxlength="30" minlength="8" required
+                           title="8 to 30 characters. Must include at least one uppercase letter, one lowercase letter, one number, and one special character (!@#%^&* etc). No double-quote characters."
+                           oninput="checkPassword()">
+                    <br><span id="pw-msg" class="field-note"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-cell">
+                    <label for="password2">Re-enter Password <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!-- oninput calls checkPasswordMatch() in scripts.js -->
+                    <input type="password" id="password2" name="password2"
+                           placeholder="Re-enter your password" maxlength="30" minlength="8" required
+                           title="Re-enter your password exactly as you typed it above. Both fields must match."
+                           oninput="checkPasswordMatch()">
+                    <br><span id="pw2-msg" class="field-note"></span>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- ===== BUTTONS ===== -->
+        <!-- Added a Review button next to the existing reset and submit buttons.
+             It calls showReview() from scripts.js which fills in the panel below. -->
+        <div id="form-buttons">
+            <input type="reset"  value="CLEAR AND START OVER" id="btn-reset">
+            <button type="button" id="btn-review" onclick="showReview()">Review My Info</button>
+            <input type="submit" value="Submit Registration"  id="btn-submit">
+        </div>
+
+    </form>
+
+    <!-- ===== REVIEW PANEL =====
+         This div starts hidden. showReview() in scripts.js fills it
+         with a table of everything the user entered and shows it. -->
+    <div id="review-panel" style="display:none; margin-top:30px; border-top:2px solid #1a7dbf; padding-top:20px;">
+    </div>
+
+</div><!-- end main-content -->
+
+<!-- ==================== FOOTER ==================== -->
+<div id="footer">
+    <div id="footer-left">
+        <strong>Ryan's Chiropractic Pseudoscience</strong><br>
+        4000 Cougar Way, Suite 500<br>
+        Houston, TX 77027<br>
+        (713) 555-5555
+    </div>
+    <div id="footer-center">
+        <button id="btn-contact"
+                onclick="alert('Contact us at info@ryanschiropseudoscience.com or call (713) 555-5555')">
+            Contact Us
+        </button>
+    </div>
+    <div id="footer-right">
+        <a href="https://www.facebook.com" target="_blank">Facebook</a> &nbsp;|&nbsp;
+        <a href="https://www.twitter.com"  target="_blank">Twitter/X</a> &nbsp;|&nbsp;
+        <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+        <br><br>
+        <small>&copy; 2026 Ryan's Chiropractic Pseudoscience. All rights reserved. |
+               <a href="#">Privacy Policy</a> | <a href="#">HIPAA Notice</a></small>
+    </div>
+</div>
+
+<!--
+    END OF FILE: index.html
+    Author: Ryan Perez | MIS 3371
+-->
+</body>
+</html>
