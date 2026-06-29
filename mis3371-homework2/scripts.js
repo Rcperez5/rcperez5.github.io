@@ -1,15 +1,13 @@
 /*
     Program name: scripts.js
     Author: Ryan Perez
-    Date created: 06/20/2026
-    Date last edited: 06/24/2026
-    Version: 1.0
+    Date created: 06/23/2026
+    Date last edited: 06/28/2026
+    Version: 3.0
     Description: External JS file for the HW2 patient registration form.
-                 Handles: live password validation, password match check,
+                 Handles: live field validation, password match check,
                  username rules, date range validation, the Review panel,
                  and the slider display.
-                 The professor asked that JS be in an external file this time,
-                 so everything that was inline before got moved here.
 */
 
 
@@ -20,6 +18,229 @@
    ============================================================ */
 function updateSlider(val) {
     document.getElementById("rating-display").textContent = val;
+}
+
+
+/* ============================================================
+   FIRST NAME CHECK - runs as the user types in the first name
+   box. Only letters, apostrophes, and dashes are allowed.
+   ============================================================ */
+function checkFname() {
+    var val = document.getElementById("fname").value;
+    var msg = document.getElementById("fname-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return; // don't nag them before they start typing
+
+    if (val.length > 30) {
+        msg.textContent = "First name cannot be more than 30 characters.";
+        return;
+    }
+    if (/[^A-Za-z'\-]/.test(val)) {
+        msg.textContent = "Only letters, apostrophes, and dashes are allowed.";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   LAST NAME CHECK - same idea as first name, but also allows
+   the numbers 2-5 and spaces (for suffixes like "Messinger 3rd").
+   ============================================================ */
+function checkLname() {
+    var val = document.getElementById("lname").value;
+    var msg = document.getElementById("lname-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (val.length > 30) {
+        msg.textContent = "Last name cannot be more than 30 characters.";
+        return;
+    }
+    if (/[^A-Za-z'\-2-5\s]/.test(val)) {
+        msg.textContent = "Only letters, apostrophes, dashes, and the numbers 2-5 are allowed.";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   SSN CHECK - runs on blur (when they tab out of the field).
+   Looks for the XXX-XX-XXXX format (dashes are optional).
+   ============================================================ */
+function checkSSN() {
+    var val = document.getElementById("ssn").value;
+    var msg = document.getElementById("ssn-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (!/^\d{3}-?\d{2}-?\d{4}$/.test(val)) {
+        msg.textContent = "Please enter a valid SSN (example: 123-45-6789).";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   EMAIL CHECK - runs on blur. Looks for the basic
+   something@something.something pattern.
+   ============================================================ */
+function checkEmail() {
+    var val = document.getElementById("email").value;
+    var msg = document.getElementById("email-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+        msg.textContent = "Please enter a valid email address (example: name@domain.com).";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   PHONE CHECK - runs on blur. Requires the exact
+   000-000-0000 format.
+   ============================================================ */
+function checkPhone() {
+    var val = document.getElementById("phone").value;
+    var msg = document.getElementById("phone-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (!/^\d{3}-\d{3}-\d{4}$/.test(val)) {
+        msg.textContent = "Please use 000-000-0000 format.";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   ADDRESS LINE 1 CHECK - required, 2-30 characters.
+   ============================================================ */
+function checkAddr1() {
+    var val = document.getElementById("addr1").value;
+    var msg = document.getElementById("addr1-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (val.length < 2 || val.length > 30) {
+        msg.textContent = "Address must be between 2 and 30 characters.";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   ADDRESS LINE 2 CHECK - optional. If they type something in,
+   it still has to be 2-30 characters.
+   ============================================================ */
+function checkAddr2() {
+    var val = document.getElementById("addr2").value;
+    var msg = document.getElementById("addr2-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) {
+        // this field is optional, so a blank value is perfectly fine
+        return;
+    }
+
+    if (val.length < 2 || val.length > 30) {
+        msg.textContent = "If entered, this must be between 2 and 30 characters.";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   CITY CHECK - required, 2-30 characters.
+   ============================================================ */
+function checkCity() {
+    var val = document.getElementById("city").value;
+    var msg = document.getElementById("city-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (val.length < 2 || val.length > 30) {
+        msg.textContent = "City must be between 2 and 30 characters.";
+        return;
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
+}
+
+
+/* ============================================================
+   ZIP CODE CHECK - runs on blur. Accepts a plain 5-digit ZIP
+   or a ZIP+4 (77002-1234). If they enter the longer version,
+   we just keep the first 5 digits and put that back in the box.
+   ============================================================ */
+function checkZip() {
+    var field = document.getElementById("zip");
+    var val   = field.value;
+    var msg   = document.getElementById("zip-msg");
+
+    msg.style.color = "red";
+    msg.textContent = "";
+
+    if (val.length === 0) return;
+
+    if (!/^\d{5}(-\d{4})?$/.test(val)) {
+        msg.textContent = "Please enter a 5-digit ZIP code (ZIP+4 is okay too).";
+        return;
+    }
+
+    if (val.length > 5) {
+        // they typed the longer ZIP+4 version - just keep the first 5 digits
+        field.value = val.substring(0, 5);
+    }
+
+    msg.style.color = "green";
+    msg.textContent = "Looks good!";
 }
 
 
@@ -177,19 +398,23 @@ function checkDOB() {
 /* ============================================================
    REVIEW PANEL - gathers everything from the form and displays
    it in a table below the form when the Review button is clicked.
-   The professor's example showed a "Please Review This Info" area
-   with pass/error next to each field. This does the same thing.
+   The page does NOT scroll down by itself - the panel just shows
+   up where it is on the page.
    ============================================================ */
 function showReview() {
 
-    // grab all the values
+    // grabs values
     var fname      = document.getElementById("fname").value.trim();
     var mi         = document.getElementById("mi").value.trim();
     var lname      = document.getElementById("lname").value.trim();
     var dob        = document.getElementById("dob").value.trim();
     var ssn        = document.getElementById("ssn").value.trim();
     var genderEls  = document.querySelectorAll("input[name='gender']:checked");
-    var gender     = genderEls.length > 0 ? genderEls[0].value : "";
+
+    var gender = "";
+    if (genderEls.length > 0) {
+        gender = genderEls[0].value;
+    }
 
     var addr1      = document.getElementById("addr1").value.trim();
     var addr2      = document.getElementById("addr2").value.trim();
@@ -201,25 +426,47 @@ function showReview() {
 
     var symptoms   = document.getElementById("symptoms").value.trim();
 
-    // collect checked conditions
+    // collect checked conditions using a regular for loop
+    // (querySelectorAll gives us a NodeList, so we step through it by hand
     var condBoxes  = document.querySelectorAll("input[name='conditions']:checked");
     var conditions = [];
-    condBoxes.forEach(function(box) { conditions.push(box.value); });
+    for (var i = 0; i < condBoxes.length; i++) {
+        conditions.push(condBoxes[i].value);
+    }
 
-    var vaccEl    = document.querySelector("input[name='vaccinated']:checked");
-    var vaccinated = vaccEl ? vaccEl.value : "";
-    var insEl     = document.querySelector("input[name='insurance']:checked");
-    var insurance  = insEl ? insEl.value : "";
-    var smokeEl   = document.querySelector("input[name='smoker']:checked");
-    var smoker     = smokeEl ? smokeEl.value : "";
-    var health     = document.getElementById("health-rating").value;
+    var vaccEl = document.querySelector("input[name='vaccinated']:checked");
+    var vaccinated = "";
+    if (vaccEl) {
+        vaccinated = vaccEl.value;
+    }
 
-    var username   = document.getElementById("username").value.trim();
-    // we show the password exists but don't display the actual value - that's just good practice
-    var pwEntered  = document.getElementById("password").value.length > 0 ? "Entered (hidden)" : "Not entered";
-    var pw2Entered = document.getElementById("password2").value.length > 0 ? "Entered (hidden)" : "Not entered";
+    var insEl = document.querySelector("input[name='insurance']:checked");
+    var insurance = "";
+    if (insEl) {
+        insurance = insEl.value;
+    }
 
-    // helper to show pass or error
+    var smokeEl = document.querySelector("input[name='smoker']:checked");
+    var smoker = "";
+    if (smokeEl) {
+        smoker = smokeEl.value;
+    }
+
+    var health = document.getElementById("health-rating").value;
+
+    var username = document.getElementById("username").value.trim();
+
+    // we show the password exists but don't display the actual value
+    var pwEntered = "Not entered";
+    if (document.getElementById("password").value.length > 0) {
+        pwEntered = "Entered (hidden)";
+    }
+
+    var pw2Entered = "Not entered";
+    if (document.getElementById("password2").value.length > 0) {
+        pw2Entered = "Entered (hidden)";
+    }
+
     function status(condition, errMsg) {
         if (condition) {
             return '<span style="color:green;">&#10003; pass</span>';
@@ -233,7 +480,7 @@ function showReview() {
     var pw2 = document.getElementById("password2").value;
     var pwMatch = (pw1 === pw2 && pw1.length >= 8);
 
-    // build the review HTML table
+    // Review HTML table
     var html = '<h3 style="border-bottom:2px solid #1a7dbf; padding-bottom:5px;">Please Review This Information</h3>';
     html += '<table class="form-table" style="margin-top:10px;">';
 
@@ -319,34 +566,30 @@ function showReview() {
     reviewDiv.innerHTML = html;
     reviewDiv.style.display = "block";
 
-    // scroll down so they can see it
-    reviewDiv.scrollIntoView({ behavior: "smooth" });
+    // the panel just appears where it already is on the page.
 }
 
 
 /* ============================================================
    FORM SUBMIT - final check before we let them go to thankyou.html.
    Just makes sure passwords match since HTML5 can't check that.
+   Returning false here is what stops the form from submitting.
    ============================================================ */
-function validateForm(e) {
+function validateForm() {
     var pw1 = document.getElementById("password").value;
     var pw2 = document.getElementById("password2").value;
 
     if (pw1 !== pw2) {
-        e.preventDefault(); // stop the form from submitting
         alert("Your passwords don't match. Please fix that before submitting.");
         document.getElementById("password2").focus();
-        return false;
+        return false; // false = stop the form from submitting
     }
 
     var username = document.getElementById("username").value;
     if (/^\d/.test(username) || /[^a-zA-Z0-9_\-]/.test(username)) {
-        e.preventDefault();
         alert("Please fix your username before submitting.");
         return false;
     }
 
-    return true;
+    return true; // true = the form is allowed to submit
 }
-
-/* END OF FILE: scripts.js */
