@@ -247,11 +247,13 @@ function checkZip() {
 /* ============================================================
    PASSWORD VALIDATION - runs as the user types in the password
    box. Checks for length, uppercase, number, and special char.
+   Also ensures the password does not contain the username.
    Displays a small message right below the field.
    ============================================================ */
 function checkPassword() {
     var pw  = document.getElementById("password").value;
     var msg = document.getElementById("pw-msg");
+    var username = document.getElementById("username").value;
 
     // reset
     msg.style.color = "red";
@@ -267,6 +269,13 @@ function checkPassword() {
         msg.textContent = "Password cannot be more than 30 characters.";
         return;
     }
+    
+    // Business Rule: Password cannot contain part of or be equal to the username (case-insensitive)
+    if (username.length > 0 && pw.toLowerCase().includes(username.toLowerCase())) {
+        msg.textContent = "Password cannot contain or equal your username.";
+        return;
+    }
+
     if (!/[A-Z]/.test(pw)) {
         msg.textContent = "Password needs at least one uppercase letter.";
         return;
