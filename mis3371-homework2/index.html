@@ -2,21 +2,22 @@
     Program name: index.html
     Author: Ryan Perez
     Date created: 06/15/2026
-    Date last edited: 06/24/2026
-    Version: 5.0
-    Description: HW2 update of the patient registration form for
-                 Ryan's Chiropractic Pseudoscience. Added title attributes
-                 to every field, regex pattern matching on inputs, a Review
-                 button that shows all entered data on the same page, live
-                 password validation, and an external JS file (scripts.js).
-                 The form still submits to thankyou.html when all is good.
+    Date last edited: 06/28/2026
+    Version: 7.0
+    Description: HW2 patient registration form for Ryan's Chiropractic
+                 Pseudoscience. All validation is in scripts.js.
+                 Every field has a title attribute, a regex pattern,
+                 and an inline error span that JS writes into.
+                 The Review button shows all entered data on the same page.
 
-    Note on sources: regex patterns for email and phone are common,
-    well-known patterns that show up in basically every HTML forms tutorial.
-    I referenced w3schools.com/html/html_form_attributes.asp and
-    w3schools.com/jsref/jsref_regexp_test.asp for syntax help.
-    The state dropdown list is just the 50 US states - not something
-    anyone can claim as original. I typed it myself.
+    Sources & credits:
+    - HTML form input attributes (pattern, title, minlength, maxlength):
+      https://www.w3schools.com/html/html_form_attributes.asp
+    - HTML input types reference:
+      https://www.w3schools.com/html/html_form_input_types.asp
+    - State dropdown list is just the 50 US states + DC + PR - typed in VScode
+    - AI assistance (Claude by Anthropic) was used to help write and debug
+      portions of this file.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +26,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Registration | Ryan's Chiropractic Pseudoscience</title>
     <link href="style.css" rel="stylesheet">
-    <!-- external JS file - professor asked we move all scripts here for HW2 -->
     <script src="scripts.js" defer></script>
 </head>
 <body>
@@ -55,8 +55,11 @@
     </div>
 </div>
 
-<!-- date script stays inline here since it runs immediately on page load
-     before the body is fully built - moved the rest to scripts.js -->
+<!--
+    Date script stays inline because it needs to run immediately when
+    the banner renders. Everything else is in scripts.js.
+    JS Date reference: w3schools.com/jsref/jsref_obj_date.asp
+-->
 <script>
     var days   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     var months = ["January","February","March","April","May","June",
@@ -83,72 +86,116 @@
         Your information will be kept strictly confidential in accordance with HIPAA regulations.
     </p>
 
-    <form action="thankyou.html" id="registration-form" onsubmit="return validateForm(event)">
+    <!--
+        onsubmit calls validateForm() in scripts.js for a final check.
+        If validateForm() returns false, the form does NOT submit.
+        If it returns true, the form goes ahead and submits to thankyou.html.
+    -->
+    <form action="thankyou.html" id="registration-form" onsubmit="return validateForm()">
 
         <!-- ===== SECTION 1: PERSONAL INFORMATION ===== -->
         <h3 class="section-heading">1 &mdash; Personal Information</h3>
         <table class="form-table">
 
+            <!-- First Name -->
             <tr>
                 <td class="label-cell">
-                    <label for="fname">Full Name <span class="required-star">*</span></label>
+                    <label for="fname">First Name <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
-                    <!-- pattern: letters, apostrophes, dashes only per HW2 spec
-                         Reference: w3schools.com/html/html_form_attributes.asp (pattern attribute) -->
+                    <!--
+                        pattern only allows letters, apostrophes, and dashes.
+                        oninput fires checkFname() in scripts.js as the user types
+                        so they see the error message immediately, not just on submit.
+                        Pattern reference: w3schools.com/html/html_form_attributes.asp
+                    -->
                     <input type="text" id="fname" name="fname"
                            placeholder="First" maxlength="30" minlength="1" required
                            pattern="[A-Za-z'\-]+"
-                           title="First name: letters, apostrophes, and dashes only (up to 30 characters)">
-                    &nbsp;
-                    <input type="text" id="mi" name="mi"
-                           placeholder="M.I." maxlength="1" class="mi-field"
-                           pattern="[A-Za-z]"
-                           title="Middle initial: one letter only (optional)">
-                    &nbsp;
-                    <!-- last name allows numbers for suffixes like "the 3rd" -->
-                    <input type="text" id="lname" name="lname"
-                           placeholder="Last" maxlength="30" minlength="1" required
-                           pattern="[A-Za-z0-9'\-\s]+"
-                           title="Last name: letters, numbers (e.g. 3rd), apostrophes, and dashes only">
+                           title="First name: letters, apostrophes, and dashes only. No numbers or special characters. (1-30 characters)"
+                           oninput="checkFname()">
+                    <br><span id="fname-msg" class="field-note"></span>
                 </td>
             </tr>
 
+            <!-- Middle Initial -->
+            <tr>
+                <td class="label-cell">
+                    <label for="mi">Middle Initial</label>
+                </td>
+                <td class="input-cell">
+                    <input type="text" id="mi" name="mi"
+                           placeholder="M.I." maxlength="1" class="mi-field"
+                           pattern="[A-Za-z]"
+                           title="Middle initial: one letter only. This field is optional.">
+                    <span class="field-note">(optional)</span>
+                </td>
+            </tr>
+
+            <!-- Last Name -->
+            <tr>
+                <td class="label-cell">
+                    <label for="lname">Last Name <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!--
+                        Last name allows digits 2-5 for suffixes (2nd, 3rd, 4th, 5th).
+                        Same oninput live validation as first name.
+                    -->
+                    <input type="text" id="lname" name="lname"
+                           placeholder="Last" maxlength="30" minlength="1" required
+                           pattern="[A-Za-z'\-2-5\s]+"
+                           title="Last name: letters, apostrophes, dashes, and numbers 2-5 only (e.g. O'Brien or Smith 3rd). (1-30 characters)"
+                           oninput="checkLname()">
+                    <br><span id="lname-msg" class="field-note"></span>
+                </td>
+            </tr>
+
+            <!-- Date of Birth -->
             <tr>
                 <td class="label-cell">
                     <label for="dob">Date of Birth <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
+                    <!--
+                        type="text" with pattern enforces MM/DD/YYYY.
+                        onblur fires checkDOB() which also validates the date range.
+                    -->
                     <input type="text" id="dob" name="dob"
                            placeholder="MM/DD/YYYY" maxlength="10" minlength="10" required
                            pattern="\d{2}/\d{2}/\d{4}"
-                           title="Enter your date of birth in MM/DD/YYYY format. Cannot be in the future or more than 120 years ago."
+                           title="Date of birth in MM/DD/YYYY format. Cannot be in the future or more than 120 years ago."
                            onblur="checkDOB()">
-                    <!-- error message spot for DOB - JS writes into this span -->
                     <br><span id="dob-msg" class="field-note"></span>
                 </td>
             </tr>
 
-            <!-- SSN stays as password type so it shows as dots -->
+            <!-- Social Security Number -->
             <tr>
                 <td class="label-cell">
                     <label for="ssn">Social Security No. <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
+                    <!--
+                        onblur fires checkSSN() for format validation.
+                    -->
                     <input type="password" id="ssn" name="ssn"
                            placeholder="XXX-XX-XXXX" maxlength="11" minlength="9" required
                            pattern="\d{3}-?\d{2}-?\d{4}"
-                           title="Social Security Number in XXX-XX-XXXX format. Entry will be hidden. Do NOT enter your real SSN while testing.">
-                    <span class="field-note">(Do not enter your real SSN while testing)</span>
+                           title="Social Security Number in XXX-XX-XXXX format. Characters are hidden as you type. Do NOT use a real SSN when testing."
+                           onblur="checkSSN()">
+                    <br><span id="ssn-msg" class="field-note"></span>
+                    <span class="field-note">(do not enter your real SSN when testing)</span>
                 </td>
             </tr>
 
+            <!-- Gender - radio buttons, 4 options -->
             <tr>
                 <td class="label-cell">Gender <span class="required-star">*</span></td>
                 <td class="input-cell">
                     <label class="radio-label">
                         <input type="radio" name="gender" value="Male" required
-                               title="Select your gender"> Male
+                               title="Select your gender - required"> Male
                     </label>
                     <label class="radio-label">
                         <input type="radio" name="gender" value="Female"
@@ -176,10 +223,14 @@
                     <label for="email">Email Address <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
-                    <!-- basic email pattern, very common - same one on w3schools forms page -->
+                    <!--
+                        onblur fires checkEmail() for a more specific check.
+                    -->
                     <input type="email" id="email" name="email"
                            placeholder="name@domain.com" maxlength="80" required
-                           title="Enter a valid email address in name@domain.com format">
+                           title="Enter a valid email address in name@domain.tld format (e.g. john@example.com)"
+                           onblur="checkEmail()">
+                    <br><span id="email-msg" class="field-note"></span>
                 </td>
             </tr>
 
@@ -188,11 +239,15 @@
                     <label for="phone">Phone Number <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
-                    <!-- pattern enforces 000-000-0000 format per HW2 spec -->
+                    <!--
+                        pattern enforces exactly 000-000-0000 format.
+                    -->
                     <input type="tel" id="phone" name="phone"
                            placeholder="000-000-0000" maxlength="12" required
                            pattern="\d{3}-\d{3}-\d{4}"
-                           title="Phone number in 000-000-0000 format">
+                           title="Phone number must be in 000-000-0000 format (e.g. 713-555-1234)"
+                           onblur="checkPhone()">
+                    <br><span id="phone-msg" class="field-note"></span>
                 </td>
             </tr>
 
@@ -209,7 +264,9 @@
                 <td class="input-cell">
                     <input type="text" id="addr1" name="addr1"
                            placeholder="Street address" maxlength="30" minlength="2" required
-                           title="Street address (2 to 30 characters)">
+                           title="Street address, required. Must be 2 to 30 characters."
+                           onblur="checkAddr1()">
+                    <br><span id="addr1-msg" class="field-note"></span>
                 </td>
             </tr>
 
@@ -220,22 +277,36 @@
                 <td class="input-cell">
                     <input type="text" id="addr2" name="addr2"
                            placeholder="Apt, Suite, etc. (optional)" maxlength="30"
-                           title="Apartment, suite, or unit number (optional, up to 30 characters)">
+                           title="Apartment, suite, or unit - optional. If entered, must be 2 to 30 characters."
+                           onblur="checkAddr2()">
+                    <br><span id="addr2-msg" class="field-note"></span>
                 </td>
             </tr>
 
             <tr>
                 <td class="label-cell">
-                    <label for="city">City / State / ZIP <span class="required-star">*</span></label>
+                    <label for="city">City <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
                     <input type="text" id="city" name="city"
                            placeholder="City" maxlength="30" minlength="2" required
-                           title="City name (2 to 30 characters)">
+                           title="City name, required. Must be 2 to 30 characters."
+                           onblur="checkCity()">
+                    <br><span id="city-msg" class="field-note"></span>
+                </td>
+            </tr>
 
+            <tr>
+                <td class="label-cell">
+                    <label for="state">State <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!--
+                        Dropdown with all 50 states + DC + PR.
+                    -->
                     <select id="state" name="state" required
-                            title="Select your state from the dropdown">
-                        <option value="">-- State --</option>
+                            title="Select your state - you must choose a valid state from the list">
+                        <option value="">-- Select State --</option>
                         <option value="AL">AL</option><option value="AK">AK</option>
                         <option value="AZ">AZ</option><option value="AR">AR</option>
                         <option value="CA">CA</option><option value="CO">CO</option>
@@ -264,34 +335,47 @@
                         <option value="WV">WV</option><option value="WI">WI</option>
                         <option value="WY">WY</option>
                     </select>
+                </td>
+            </tr>
 
-                    <!-- zip: 5 digits required, allows zip+4 format, type=text not number -->
+            <tr>
+                <td class="label-cell">
+                    <label for="zip">ZIP Code <span class="required-star">*</span></label>
+                </td>
+                <td class="input-cell">
+                    <!--
+                        type="text" not type="number" - the assignment specifically says not a number field.
+                        Allows ZIP+4 format (77002-1234). onblur shortens to 5 digits and redisplays.
+                    -->
                     <input type="text" id="zip" name="zip"
-                           placeholder="ZIP" maxlength="10" minlength="5" required
+                           placeholder="77002" maxlength="10" minlength="5" required
                            class="zip-field"
                            pattern="\d{5}(-\d{4})?"
-                           title="ZIP code: 5 digits, or ZIP+4 format (e.g. 77002-1234). Not a number field.">
+                           title="ZIP code: 5 digits required (e.g. 77002). ZIP+4 format also accepted (e.g. 77002-1234) and will be shortened to 5 digits."
+                           onblur="checkZip()">
+                    <br><span id="zip-msg" class="field-note"></span>
                 </td>
             </tr>
 
         </table>
 
-        <!-- ===== SECTION 4: HEALTH & CHOICES ===== -->
+        <!-- ===== SECTION 4: HEALTH INFORMATION ===== -->
         <h3 class="section-heading">4 &mdash; Health Information</h3>
         <table class="form-table">
 
+            <!-- Symptoms text area - optional per spec -->
             <tr>
                 <td class="label-cell">
                     <label for="symptoms">Describe Current Symptoms</label>
                 </td>
                 <td class="input-cell">
-                    <!-- optional per HW2 spec, but watch out for double quotes -->
                     <textarea id="symptoms" name="symptoms" rows="3" cols="50"
-                              placeholder="Please describe your current symptoms..."
-                              title="Optional: describe what brought you in today. Avoid using double-quote characters."></textarea>
+                              placeholder="Describe what brought you in today (optional)..."
+                              title="Optional: describe your current symptoms. Avoid using double-quote characters (&quot;) as they can cause issues with data storage."></textarea>
                 </td>
             </tr>
 
+            <!-- Checkboxes -->
             <tr>
                 <td class="label-cell">Previous Diagnoses</td>
                 <td class="input-cell">
@@ -318,11 +402,12 @@
                     </label><br>
                     <label class="check-label">
                         <input type="checkbox" name="conditions" value="None of the Above"
-                               title="Check this if none of the conditions above apply"> None of the Above
+                               title="Check this if none of the above conditions apply to you"> None of the Above
                     </label>
                 </td>
             </tr>
 
+            <!-- Radio set 1: Vaccination -->
             <tr>
                 <td class="label-cell">Are you fully vaccinated? <span class="required-star">*</span></td>
                 <td class="input-cell">
@@ -341,20 +426,22 @@
                 </td>
             </tr>
 
+            <!-- Radio set 2: Insurance -->
             <tr>
                 <td class="label-cell">Do you have health insurance? <span class="required-star">*</span></td>
                 <td class="input-cell">
                     <label class="radio-label">
                         <input type="radio" name="insurance" value="Yes" required
-                               title="Select whether you have health insurance"> Yes
+                               title="Select whether you currently have health insurance"> Yes
                     </label>
                     <label class="radio-label">
                         <input type="radio" name="insurance" value="No"
-                               title="Select whether you have health insurance"> No
+                               title="Select whether you currently have health insurance"> No
                     </label>
                 </td>
             </tr>
 
+            <!-- Radio set 3: Smoking -->
             <tr>
                 <td class="label-cell">Do you currently smoke? <span class="required-star">*</span></td>
                 <td class="input-cell">
@@ -373,21 +460,26 @@
                 </td>
             </tr>
 
-            <!-- Slider - oninput calls the function in scripts.js -->
+            <!-- Slider - oninput calls updateSlider() in scripts.js -->
             <tr>
                 <td class="label-cell">
                     <label for="health-rating">Overall Health (self-rated)</label>
                 </td>
                 <td class="input-cell">
                     <span class="slider-label">1 - Very Poor</span>
+                    <!--
+                        oninput fires every time the slider moves, updating
+                        the number display in real time.
+                        Reference: w3schools.com/jsref/event_oninput.asp
+                    -->
                     <input type="range" id="health-rating" name="health_rating"
                            min="1" max="10" value="5"
                            oninput="updateSlider(this.value)"
-                           title="Slide to rate your overall health from 1 (very poor) to 10 (excellent)">
+                           title="Slide to rate your overall health: 1 is very poor, 10 is excellent">
                     <span class="slider-label">10 - Excellent</span>
                     <br>
-                    <!-- this span gets updated live by updateSlider() in scripts.js -->
-                    <span class="field-note">Current: <span id="rating-display">5</span> / 10</span>
+                    <!-- this span is updated live by updateSlider() in scripts.js -->
+                    <span class="field-note">Current: <strong><span id="rating-display">5</span></strong> / 10</span>
                 </td>
             </tr>
 
@@ -402,11 +494,14 @@
                     <label for="username">Desired Username <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
-                    <!-- onblur calls checkUsername() in scripts.js which also lowercases it -->
+                    <!--
+                        onblur fires checkUsername() which also auto-lowercases the value.
+                        Pattern: must start with a letter, then letters/numbers/underscore/dash.
+                    -->
                     <input type="text" id="username" name="username"
                            placeholder="Choose a username" maxlength="30" minlength="5" required
                            pattern="[a-zA-Z][a-zA-Z0-9_\-]{4,29}"
-                           title="5 to 30 characters. Must start with a letter. Only letters, numbers, underscores, and dashes allowed. No spaces. Will be converted to lowercase."
+                           title="Username: 5 to 30 characters. Must start with a letter. Only letters, numbers, underscores, and dashes allowed. No spaces. Will be converted to lowercase automatically."
                            onblur="checkUsername()">
                     <br><span id="username-msg" class="field-note"></span>
                 </td>
@@ -417,10 +512,12 @@
                     <label for="password">Password <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
-                    <!-- oninput calls checkPassword() in scripts.js for live feedback -->
+                    <!--
+                        oninput fires checkPassword() for live feedback as they type.
+                    -->
                     <input type="password" id="password" name="password"
                            placeholder="Create a password" maxlength="30" minlength="8" required
-                           title="8 to 30 characters. Must include at least one uppercase letter, one lowercase letter, one number, and one special character (!@#%^&* etc). No double-quote characters."
+                           title="Password: 8 to 30 characters. Must include at least one uppercase letter, one lowercase letter, one number, and one special character (e.g. ! @ # %). Double-quotes are not allowed. Cannot contain your username."
                            oninput="checkPassword()">
                     <br><span id="pw-msg" class="field-note"></span>
                 </td>
@@ -431,7 +528,9 @@
                     <label for="password2">Re-enter Password <span class="required-star">*</span></label>
                 </td>
                 <td class="input-cell">
-                    <!-- oninput calls checkPasswordMatch() in scripts.js -->
+                    <!--
+                        oninput fires checkPasswordMatch() for live comparison.
+                    -->
                     <input type="password" id="password2" name="password2"
                            placeholder="Re-enter your password" maxlength="30" minlength="8" required
                            title="Re-enter your password exactly as you typed it above. Both fields must match."
@@ -442,20 +541,21 @@
 
         </table>
 
-        <!-- ===== BUTTONS ===== -->
-        <!-- Added a Review button next to the existing reset and submit buttons.
-             It calls showReview() from scripts.js which fills in the panel below. -->
+        <!-- ===== FORM BUTTONS ===== -->
         <div id="form-buttons">
             <input type="reset"  value="CLEAR AND START OVER" id="btn-reset">
-            <button type="button" id="btn-review" onclick="showReview()">Review My Info</button>
-            <input type="submit" value="Submit Registration"  id="btn-submit">
+            <!-- Review button calls showReview() in scripts.js - does NOT submit the form -->
+            <button type="button" id="btn-review" onclick="showReview()">&#128269; Review My Info</button>
+            <input type="submit" value="Submit Registration" id="btn-submit">
         </div>
 
     </form>
 
-    <!-- ===== REVIEW PANEL =====
-         This div starts hidden. showReview() in scripts.js fills it
-         with a table of everything the user entered and shows it. -->
+    <!--
+        REVIEW PANEL - hidden by default. showReview() in scripts.js
+        fills this with a formatted table of everything the user entered.
+        It appears below the form, on the same page, without reloading.
+    -->
     <div id="review-panel" style="display:none; margin-top:30px; border-top:2px solid #1a7dbf; padding-top:20px;">
     </div>
 
