@@ -1,0 +1,89 @@
+<!--
+    Program name: thankyou.html
+    Author: Ryan Perez
+    Date created: 06/15/2026
+    Date last edited: 06/20/2026
+    Version: 4.0
+    Description: Thank-you confirmation page displayed after the
+                 patient registration form is submitted.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Ryan's Chiropractic Pseudoscience</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER / BANNER (matches patient-form.html) -->
+<div id="banner">
+    <div id="logo-area">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+            <rect x="33" y="5" width="14" height="70" rx="4" fill="#ffffff" opacity="0.9"/>
+            <rect x="27" y="12" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="24" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="36" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="48" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="60" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="10" y="33" width="60" height="14" rx="4" fill="#ffffff" opacity="0.9"/>
+            <circle cx="40" cy="40" r="7" fill="#1a5f8a"/>
+        </svg>
+    </div>
+    <div id="banner-text">
+        <h1>Ryan's Chiropractic Pseudoscience</h1>
+        <p id="tagline"><em>Healing you have to believe to feel.</em></p>
+        <p id="banner-date">Today is: <span id="dynamic-date"></span></p>
+    </div>
+</div>
+
+<script>
+    var days   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var months = ["January","February","March","April","May","June",
+                  "July","August","September","October","November","December"];
+    var now    = new Date();
+    var day    = days[now.getDay()];
+    var month  = months[now.getMonth()];
+    var date   = now.getDate();
+    var year   = now.getFullYear();
+    var suffix = "th";
+    if (date === 1 || date === 21 || date === 31) suffix = "st";
+    else if (date === 2 || date === 22)           suffix = "nd";
+    else if (date === 3 || date === 23)           suffix = "rd";
+    document.getElementById("dynamic-date").textContent =
+        day + ", " + month + " " + date + suffix + ", " + year;
+</script>
+
+<div id="main-content" style="text-align:center; padding: 60px 35px;">
+    <h2>Thank you for your submission.</h2>
+    <p>A member of our team will be in touch with you shortly to confirm your appointment.</p>
+    <p><a href="index.html">&larr; Return to Registration Form</a></p>
+</div>
+
+<!-- FOOTER (matches patient-form.html) -->
+<div id="footer">
+    <div id="footer-left">
+        <strong>Ryan's Chiropractic Pseudoscience</strong><br>
+        4000 Cougar Way, Suite 500<br>
+        Houston, TX 77027<br>
+        (713) 555-5555
+    </div>
+    <div id="footer-center">
+        <button id="btn-contact"
+                onclick="alert('Contact us at info@ryanschiropseudoscience.com or call (713) 555-5555')">
+            Contact Us
+        </button>
+    </div>
+    <div id="footer-right">
+        <a href="https://www.facebook.com" target="_blank">Facebook</a> &nbsp;|&nbsp;
+        <a href="https://www.twitter.com"  target="_blank">Twitter/X</a> &nbsp;|&nbsp;
+        <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+        <br><br>
+        <small>&copy; 2026 Ryan's Chiropractic Pseudoscience. All rights reserved.</small>
+    </div>
+</div>
+
+<!-- END OF FILE: thankyou.html -->
+</body>
+</html>
