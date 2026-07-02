@@ -390,8 +390,8 @@ function checkUsername() {
 
     if (val.length === 0) return;
 
-    if (val.length < 5 || val.length > 30) {
-        msg.textContent = "Username must be between 5 and 30 characters.";
+    if (val.length < 5 || val.length > 20) {
+        msg.textContent = "Username must be between 5 and 20 characters.";
         return;
     }
     if (/^\d/.test(val)) {
@@ -664,7 +664,7 @@ function showReview() {
 
     html += '<tr><td class="label-cell">Username</td><td class="input-cell">';
     html += username || "<em>blank</em>";
-    html += " &nbsp; " + status(username.length >= 5, "5-30 chars, no spaces, starts with a letter");
+    html += " &nbsp; " + status(username.length >= 5, "5-20 chars, no spaces, starts with a letter");
     html += "</td></tr>";
 
     var pwErrorText = "Passwords must match and meet requirements";
