@@ -2,10 +2,10 @@
     Program name: homework3.html
     Author: Ryan Perez
     Date created: 06/15/2026
-    Date last edited: 06/30/2026
+    Date last edited: 07/02/2026
     Version: 8.0
     Description: HW3 patient registration form for Ryan's Chiropractic
-                 Pseudoscience. All validation is in scripts.js.
+                 Pseudoscience. All validation is in scripts.js (except date).
                  Every field has a title attribute, a regex pattern,
                  and an inline error span that JS writes into as the
                  user types (oninput) or leaves (onblur) each field.
@@ -20,7 +20,7 @@
     - HTML input types reference:
       https://www.w3schools.com/html/html_form_input_types.asp
     - State dropdown list is just the 50 US states + DC + PR - typed in VScode
-    - AI assistance (Claude by Anthropic) was used to help write and debug
+    - AI assistance (Claude by Anthropic) was used to debug
       portions of this file.
 -->
 <!DOCTYPE html>
@@ -51,6 +51,7 @@
             <rect x="10" y="33" width="60" height="14" rx="4" fill="#ffffff" opacity="0.9"/>
             <!-- center circle -->
             <circle cx="40" cy="40" r="7" fill="#1a5f8a"/>
+            <!-- Self made logo -->
         </svg>
     </div>
     <div id="banner-text">
@@ -94,7 +95,7 @@
     <!--
         onsubmit calls validateForm() in scripts.js for a final check.
         If validateForm() returns false, the form does NOT submit.
-        If it returns true, the form goes ahead and submits to thankyou.html.
+        If it returns true, the form submits to thankyou.html.
     -->
     <form action="thankyou.html" id="registration-form" onsubmit="return validateForm()">
 
@@ -517,7 +518,7 @@
                     -->
                     <input type="text" id="username" name="username"
                            placeholder="Choose a username" maxlength="20" minlength="5" required
-                           pattern="[a-zA-Z][a-zA-Z0-9_\-]{4,29}"
+                           pattern="[a-zA-Z][a-zA-Z0-9_\-]{4,19}"
                            title="Username: 5 to 20 characters. Must start with a letter. Only letters, numbers, underscores, and dashes allowed. No spaces. Will be converted to lowercase automatically."
                            onblur="checkUsername()">
                     <br><span id="username-msg" class="field-note"></span>
