@@ -516,9 +516,9 @@
                         Pattern: must start with a letter, then letters/numbers/underscore/dash.
                     -->
                     <input type="text" id="username" name="username"
-                           placeholder="Choose a username" maxlength="30" minlength="5" required
+                           placeholder="Choose a username" maxlength="20" minlength="5" required
                            pattern="[a-zA-Z][a-zA-Z0-9_\-]{4,29}"
-                           title="Username: 5 to 30 characters. Must start with a letter. Only letters, numbers, underscores, and dashes allowed. No spaces. Will be converted to lowercase automatically."
+                           title="Username: 5 to 20 characters. Must start with a letter. Only letters, numbers, underscores, and dashes allowed. No spaces. Will be converted to lowercase automatically."
                            onblur="checkUsername()">
                     <br><span id="username-msg" class="field-note"></span>
                 </td>
