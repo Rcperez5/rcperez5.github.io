@@ -2,7 +2,7 @@
     Program name: scripts.js
     Author: Ryan Perez
     Date created: 06/20/2026
-    Date last edited: 06/28/2026
+    Date last edited: 07/02/2026
     Version: 3.0
     Description: External JS file for the HW3 patient registration form.
                  Handles: live field validation, password match check,
@@ -11,20 +11,6 @@
                  field's min/max date attributes plus a JS backup
                  check), the symptoms quote warning, the Review
                  panel, and the slider display.
-
-                 Kept intentionally simple:
-                   - No window.onload - setDOBLimits() just runs as a
-                     plain statement near the top of the file. This
-                     works because index.html loads this file with the
-                     defer attribute, which already waits until the
-                     page is fully parsed before running this file.
-                   - No automatic smooth-scrolling - the Review panel
-                     just appears where it already is on the page.
-                   - return false; is used to stop the form from
-                     submitting, instead of preventDefault().
-                   - Regular for loops instead of .forEach().
-                   - Plain if/else statements instead of the shorthand
-                     ?: (ternary) operator for the bigger comparisons.
 */
 
 
@@ -187,6 +173,7 @@ function checkAddr1() {
    ADDRESS LINE 2 CHECK - optional. If they type something in,
    it still has to be 2-30 characters.
    ============================================================ */
+
 function checkAddr2() {
     var val = document.getElementById("addr2").value;
     var msg = document.getElementById("addr2-msg");
@@ -236,6 +223,7 @@ function checkCity() {
    or a ZIP+4 (77002-1234). If they enter the longer version,
    we just keep the first 5 digits and put that back in the box.
    ============================================================ */
+
 function checkZip() {
     var field = document.getElementById("zip");
     var val   = field.value;
@@ -262,16 +250,15 @@ function checkZip() {
 
 
 /* ============================================================
-   PASSWORD SAFETY HELPER - checks a password against two extra
-   rules the assignment requires:
+   PASSWORD SAFETY HELPER
      1. The password cannot contain a double-quote character.
      2. The password cannot contain the username, first name,
         or last name (so it can't just be your own name/ID).
    Returns an error message (text) if a rule is broken, or an
-   empty string "" if the password passes both checks.
    Used by checkPassword(), validateForm(), and showReview() so
    the rule only has to be written once.
    ============================================================ */
+
 function getPasswordSafetyError(pw) {
     if (pw.indexOf('"') !== -1) {
         return "Password cannot contain a double-quote character.";
@@ -301,6 +288,7 @@ function getPasswordSafetyError(pw) {
    box. Checks for length, uppercase, number, and special char.
    Displays a small message right below the field.
    ============================================================ */
+
 function checkPassword() {
     var pw  = document.getElementById("password").value;
     var msg = document.getElementById("pw-msg");
@@ -331,8 +319,9 @@ function checkPassword() {
         msg.textContent = "Password needs at least one number.";
         return;
     }
-    // special chars allowed: !@#%^&*()-_+=\/><.,`~  but NOT double-quote
-    // Source for this kind of character class check: w3schools.com/jsref/jsref_regexp_test.asp
+    // special chars allowed: !@#%^&*()-_+=\/><.,`~  but NO double-quotes
+    // Source for this character class check: w3schools.com/jsref/jsref_regexp_test.asp
+    
     if (!/[!@#%^&*()\-_+=\/><.,`~]/.test(pw)) {
         msg.textContent = "Password needs at least one special character (e.g. !@#$).";
         return;
@@ -419,7 +408,7 @@ function checkUsername() {
 /* ============================================================
    SYMPTOMS CHECK - this field is optional, so we never block
    the user, we just warn them if they type a double-quote
-   character, since that can cause problems with data storage.
+   character
    (Textareas don't support the HTML pattern attribute, so this
    rule is handled in JavaScript instead.)
    ============================================================ */
@@ -439,8 +428,7 @@ function checkSymptoms() {
 /* ============================================================
    DOB DATE RANGE CHECK - makes sure the birthday is not in the
    future and not more than 120 years ago. The dob field is a
-   plain text input in MM/DD/YYYY format (the browser does not
-   get a native date picker). We split on "/" ourselves.
+   plain text input in MM/DD/YYYY format
    Called oninput and onblur from the dob field.
    ============================================================ */
 function isValidDOB(val) {
@@ -510,8 +498,6 @@ function checkDOB() {
 /* ============================================================
    REVIEW PANEL - gathers everything from the form and displays
    it in a table below the form when the Review button is clicked.
-   The page does NOT scroll down by itself - the panel just shows
-   up where it is on the page.
    ============================================================ */
 function showReview() {
 
@@ -538,7 +524,6 @@ function showReview() {
 
     var symptoms   = document.getElementById("symptoms").value.trim();
 
-    // collect checked conditions using a regular for loop
     // (querySelectorAll gives us a NodeList, so we step through it by hand
     //  instead of using .forEach - this way it works in every browser)
     var condBoxes  = document.querySelectorAll("input[name='conditions']:checked");
@@ -569,7 +554,7 @@ function showReview() {
 
     var username = document.getElementById("username").value.trim();
 
-    // we show the password exists but don't display the actual value - that's just good practice
+    // we show the password exists but don't display the actual value
     var pwEntered = "Not entered";
     if (document.getElementById("password").value.length > 0) {
         pwEntered = "Entered (hidden)";
@@ -688,8 +673,6 @@ function showReview() {
     reviewDiv.innerHTML = html;
     reviewDiv.style.display = "block";
 
-    // note: we don't scroll the page down automatically -
-    // the panel just appears where it already is on the page.
 }
 
 
@@ -743,8 +726,7 @@ function validateForm() {
    field. Strips out anything that isn't a digit, then inserts
    dashes automatically after the 3rd and 5th digit so the user
    sees XXX-XX-XXXX taking shape without having to type the dashes
-   themselves. The field is type="password" so characters still
-   show as dots.
+   themselves.
    ============================================================ */
 function formatSSN() {
     var field = document.getElementById("ssn");
@@ -774,8 +756,7 @@ function formatSSN() {
 
 /* ============================================================
    CLEAR ALL MESSAGES - called when the CLEAR AND START OVER
-   button is clicked. Resets every inline error/success span so
-   old messages don't linger after the form is cleared.
+   button is clicked.
    ============================================================ */
 function clearAllMessages() {
     var messageIds = [
@@ -806,18 +787,15 @@ function clearAllMessages() {
    If the count is zero, the Submit button is revealed.
    If any errors remain, they stay visible so the user can fix
    them, and the Submit button stays hidden.
-
-   This is the "belts and suspenders" approach the assignment
-   asks for - the fields are already checked live as the user
-   types, and this does one final sweep before allowing submit.
    ============================================================ */
 function validateAllFields() {
 
-    // clear the validate message area first, before we count errors.
-    // if we don't do this, the red message from a PREVIOUS failed run
-    // gets picked up by the error-counting loop below and counts as 1
-    // error all by itself, which prevents the Submit button from ever
-    // appearing even after the user fixes everything.
+    /* clear the validate message area first, before we count errors.
+    if we don't do this, the red message from a PREVIOUS failed run
+    gets picked up by the error-counting loop below and counts as 1
+    error all by itself, which prevents the Submit button from ever
+    appearing even after the user fixes everything. */
+    
     var validateMsg = document.getElementById("validate-msg");
     validateMsg.textContent = "";
     validateMsg.style.color = "";
