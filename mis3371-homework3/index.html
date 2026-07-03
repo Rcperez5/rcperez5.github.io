@@ -183,7 +183,7 @@
                 </td>
                 <td class="input-cell">
                     <!--
-                        type="password" makes it show *** while typing - required by spec.
+                        type="password" makes it show *** while typing
                         onblur fires checkSSN() for format validation.
                     -->
                     <input type="password" id="ssn" name="ssn"
@@ -311,8 +311,8 @@
                 <td class="input-cell">
                     <!--
                         Dropdown with all 50 states + DC + PR.
-                        The blank first option forces the user to make a real selection.
-                        State list typed manually - common knowledge, no single source.
+                        Blank first option
+                        State list typed with help from VS code
                     -->
                     <select id="state" name="state" required
                             title="Select your state - you must choose a valid state from the list">
@@ -354,8 +354,8 @@
                 </td>
                 <td class="input-cell">
                     <!--
-                        type="text" not type="number" - the assignment specifically says not a number field.
                         Allows ZIP+4 format (77002-1234). onblur truncates to 5 digits and redisplays.
+                        Text instead of number for ZIP per assignment.
                     -->
                     <input type="text" id="zip" name="zip"
                            placeholder="77002" maxlength="10" minlength="5" required
@@ -373,17 +373,17 @@
         <h3 class="section-heading">4 &mdash; Health Information</h3>
         <table class="form-table">
 
-            <!-- Symptoms text area - optional per spec -->
+            <!-- Symptoms text area -->
             <tr>
                 <td class="label-cell">
                     <label for="symptoms">Describe Current Symptoms</label>
                 </td>
                 <td class="input-cell">
                     <!--
-                        Optional per HW2 spec. The title warns about double-quotes
+                        The title warns about double-quotes
                         since those can break database queries if not escaped.
-                        textareas don't support the pattern attribute so we handle
-                        it in the title and trust server-side sanitization later.
+                        Textareas don't support the pattern attribute so we handle
+                        it in the title and trust the server later.
                     -->
                     <textarea id="symptoms" name="symptoms" rows="3" cols="50"
                               placeholder="Describe what brought you in today (optional)..."
@@ -393,7 +393,7 @@
                 </td>
             </tr>
 
-            <!-- Checkboxes - at least 5 required by spec -->
+            <!-- Checkboxes -->
             <tr>
                 <td class="label-cell">Previous Diagnoses</td>
                 <td class="input-cell">
@@ -532,7 +532,6 @@
                 <td class="input-cell">
                     <!--
                         oninput fires checkPassword() for live feedback as they type.
-                        Characters show as *** because type="password".
                     -->
                     <input type="password" id="password" name="password"
                            placeholder="Create a password" maxlength="30" minlength="8" required
