@@ -4,7 +4,7 @@
     Date created: 06/20/2026
     Date last edited: 06/28/2026
     Version: 3.0
-    Description: External JS file for the HW2 patient registration form.
+    Description: External JS file for the HW3 patient registration form.
                  Handles: live field validation, password match check,
                  username rules, the password-vs-username/name and
                  no-quote rule, date range validation (using the dob
@@ -377,7 +377,7 @@ function checkPasswordMatch() {
 
 /* ============================================================
    USERNAME CHECK - runs on blur (when they tab out of the field)
-   Rules: 5-30 chars, first char must be a letter, only letters/
+   Rules: 5-20 chars, first char must be a letter, only letters/
    numbers/underscore/dash, no spaces. Converts to lowercase.
    ============================================================ */
 function checkUsername() {
@@ -664,7 +664,7 @@ function showReview() {
 
     html += '<tr><td class="label-cell">Username</td><td class="input-cell">';
     html += username || "<em>blank</em>";
-    html += " &nbsp; " + status(username.length >= 5, "5-20 chars, no spaces, starts with a letter");
+    html += " &nbsp; " + status(username.length >= 5 && username.length <= 20, "5-20 chars, no spaces, starts with a letter");
     html += "</td></tr>";
 
     var pwErrorText = "Passwords must match and meet requirements";
@@ -811,9 +811,8 @@ function clearAllMessages() {
    asks for - the fields are already checked live as the user
    types, and this does one final sweep before allowing submit.
    ============================================================ */
-
 function validateAllFields() {
- 
+
     // clear the validate message area first, before we count errors.
     // if we don't do this, the red message from a PREVIOUS failed run
     // gets picked up by the error-counting loop below and counts as 1
@@ -822,15 +821,15 @@ function validateAllFields() {
     var validateMsg = document.getElementById("validate-msg");
     validateMsg.textContent = "";
     validateMsg.style.color = "";
- 
+
     // force the username to lowercase one more time
     var usernameField = document.getElementById("username");
     usernameField.value = usernameField.value.toLowerCase();
- 
+
     // force the email to lowercase too
     var emailField = document.getElementById("email");
     emailField.value = emailField.value.toLowerCase();
- 
+
     // run every single field checker
     checkFname();
     checkLname();
@@ -846,7 +845,7 @@ function validateAllFields() {
     checkUsername();
     checkPassword();
     checkPasswordMatch();
- 
+
     // now count how many red error messages are showing on the page.
     // we find every element with class "field-note" and check its color.
     var errorCount = 0;
@@ -857,7 +856,7 @@ function validateAllFields() {
             errorCount = errorCount + 1;
         }
     }
- 
+
     // also check that the required radio buttons have something selected
     // (these don't have inline error spans, so we check them here)
     var genderSelected  = document.querySelectorAll("input[name='gender']:checked").length > 0;
@@ -865,7 +864,7 @@ function validateAllFields() {
     var insSelected     = document.querySelectorAll("input[name='insurance']:checked").length > 0;
     var smokerSelected  = document.querySelectorAll("input[name='smoker']:checked").length > 0;
     var stateSelected   = document.getElementById("state").value !== "";
- 
+
     if (!genderSelected || !vaccSelected || !insSelected || !smokerSelected || !stateSelected) {
         errorCount = errorCount + 1;
         validateMsg.style.color = "red";
@@ -873,7 +872,7 @@ function validateAllFields() {
     } else if (errorCount === 0) {
         validateMsg.textContent = "";
     }
- 
+
     if (errorCount === 0) {
         // everything passed - show the submit button
         document.getElementById("btn-submit").style.display = "inline-block";
@@ -888,4 +887,5 @@ function validateAllFields() {
         }
     }
 }
+
 /* END OF FILE: scripts.js */
