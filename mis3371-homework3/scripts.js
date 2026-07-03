@@ -811,16 +811,26 @@ function clearAllMessages() {
    asks for - the fields are already checked live as the user
    types, and this does one final sweep before allowing submit.
    ============================================================ */
-function validateAllFields() {
 
+function validateAllFields() {
+ 
+    // clear the validate message area first, before we count errors.
+    // if we don't do this, the red message from a PREVIOUS failed run
+    // gets picked up by the error-counting loop below and counts as 1
+    // error all by itself, which prevents the Submit button from ever
+    // appearing even after the user fixes everything.
+    var validateMsg = document.getElementById("validate-msg");
+    validateMsg.textContent = "";
+    validateMsg.style.color = "";
+ 
     // force the username to lowercase one more time
     var usernameField = document.getElementById("username");
     usernameField.value = usernameField.value.toLowerCase();
-
+ 
     // force the email to lowercase too
     var emailField = document.getElementById("email");
     emailField.value = emailField.value.toLowerCase();
-
+ 
     // run every single field checker
     checkFname();
     checkLname();
@@ -836,7 +846,7 @@ function validateAllFields() {
     checkUsername();
     checkPassword();
     checkPasswordMatch();
-
+ 
     // now count how many red error messages are showing on the page.
     // we find every element with class "field-note" and check its color.
     var errorCount = 0;
@@ -847,17 +857,15 @@ function validateAllFields() {
             errorCount = errorCount + 1;
         }
     }
-
+ 
     // also check that the required radio buttons have something selected
     // (these don't have inline error spans, so we check them here)
-    var genderSelected    = document.querySelectorAll("input[name='gender']:checked").length > 0;
-    var vaccSelected      = document.querySelectorAll("input[name='vaccinated']:checked").length > 0;
-    var insSelected       = document.querySelectorAll("input[name='insurance']:checked").length > 0;
-    var smokerSelected    = document.querySelectorAll("input[name='smoker']:checked").length > 0;
-    var stateSelected     = document.getElementById("state").value !== "";
-
-    var validateMsg = document.getElementById("validate-msg");
-
+    var genderSelected  = document.querySelectorAll("input[name='gender']:checked").length > 0;
+    var vaccSelected    = document.querySelectorAll("input[name='vaccinated']:checked").length > 0;
+    var insSelected     = document.querySelectorAll("input[name='insurance']:checked").length > 0;
+    var smokerSelected  = document.querySelectorAll("input[name='smoker']:checked").length > 0;
+    var stateSelected   = document.getElementById("state").value !== "";
+ 
     if (!genderSelected || !vaccSelected || !insSelected || !smokerSelected || !stateSelected) {
         errorCount = errorCount + 1;
         validateMsg.style.color = "red";
@@ -865,7 +873,7 @@ function validateAllFields() {
     } else if (errorCount === 0) {
         validateMsg.textContent = "";
     }
-
+ 
     if (errorCount === 0) {
         // everything passed - show the submit button
         document.getElementById("btn-submit").style.display = "inline-block";
@@ -880,5 +888,4 @@ function validateAllFields() {
         }
     }
 }
-
 /* END OF FILE: scripts.js */
