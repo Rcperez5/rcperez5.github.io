@@ -865,5 +865,41 @@ function validateAllFields() {
         }
     }
 }
+/* ============================================================
+   BANNER DATE DISPLAY - builds a readable date string like
+   "Sunday, June 28th, 2026" and writes it into the
+   "dynamic-date" span in the banner on whichever page this
+   script is loaded on.
+  
+   Reference: w3schools.com/jsref/jsref_obj_date.asp
+   ============================================================ */
+function setBannerDate() {
+    var dateSpan = document.getElementById("dynamic-date");
+    if (!dateSpan) return; // safety check - exit quietly if the span is not on this page
+ 
+    var days   = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"];
+ 
+    var now   = new Date();
+    var day   = days[now.getDay()];
+    var month = months[now.getMonth()];
+    var date  = now.getDate();
+    var year  = now.getFullYear();
+ 
+    // figure out the correct ordinal suffix (1st, 2nd, 3rd, 4th...)
+    var suffix = "th";
+    if (date === 1 || date === 21 || date === 31) {
+        suffix = "st";
+    } else if (date === 2 || date === 22) {
+        suffix = "nd";
+    } else if (date === 3 || date === 23) {
+        suffix = "rd";
+    }
+ 
+    dateSpan.textContent = day + ", " + month + " " + date + suffix + ", " + year;
+}
+
+setBannerDate();
 
 /* END OF FILE: scripts.js */
