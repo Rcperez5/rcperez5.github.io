@@ -2,8 +2,8 @@
     Program name: scripts.js
     Author: Ryan Perez
     Date created: 06/20/2026
-    Date last edited: 07/02/2026
-    Version: 3.0
+    Date last edited: 07/06/2026
+    Version: 4.0
     Description: External JS file for the HW3 patient registration form.
                  Handles: live field validation, password match check,
                  username rules, the password-vs-username/name and
@@ -254,7 +254,7 @@ function checkZip() {
      1. The password cannot contain a double-quote character.
      2. The password cannot contain the username, first name,
         or last name (so it can't just be your own name/ID).
-   Returns an error message (text) if a rule is broken, or an
+   Returns an error message (text) if a rule is broken
    Used by checkPassword(), validateForm(), and showReview() so
    the rule only has to be written once.
    ============================================================ */
