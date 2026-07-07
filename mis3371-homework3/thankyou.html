@@ -38,23 +38,6 @@
     </div>
 </div>
 
-<script>
-    var days   = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    var months = ["January","February","March","April","May","June",
-                  "July","August","September","October","November","December"];
-    var now    = new Date();
-    var day    = days[now.getDay()];
-    var month  = months[now.getMonth()];
-    var date   = now.getDate();
-    var year   = now.getFullYear();
-    var suffix = "th";
-    if (date === 1 || date === 21 || date === 31) suffix = "st";
-    else if (date === 2 || date === 22)           suffix = "nd";
-    else if (date === 3 || date === 23)           suffix = "rd";
-    document.getElementById("dynamic-date").textContent =
-        day + ", " + month + " " + date + suffix + ", " + year;
-</script>
-
 <div id="main-content" style="text-align:center; padding: 60px 35px;">
     <h2>Thank you for your submission.</h2>
     <p>A member of our team will be in touch with you shortly to confirm your appointment.</p>
