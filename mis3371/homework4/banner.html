@@ -1,0 +1,47 @@
+<!--
+    Program name: banner.html
+    Author: Ryan Perez
+    Date created: 07/10/2026
+    Version: 1.0
+    Description: Small header "fragment" page. index.html and thankyou.html
+                 both load this file inside an <iframe> and pin it to the
+                 top of the screen with CSS (position: fixed). This is the
+                 iframe used to satisfy the "protect the header" part of
+                 HW4, separate from the clickable map iframe in the body.
+                 Also shows the cookie-based welcome message
+                 (see initBannerGreeting() in scripts.js).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="style.css" rel="stylesheet">
+    <script src="scripts.js" defer></script>
+</head>
+<body style="margin:0;">
+
+<div id="banner">
+    <div id="logo-area">
+        <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80" aria-label="Company logo">
+            <rect x="33" y="5"  width="14" height="70" rx="4" fill="#ffffff" opacity="0.9"/>
+            <rect x="27" y="12" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="24" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="36" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="48" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="27" y="60" width="26" height="7" rx="3" fill="#c8e6f5"/>
+            <rect x="10" y="33" width="60" height="14" rx="4" fill="#ffffff" opacity="0.9"/>
+            <circle cx="40" cy="40" r="7" fill="#1a5f8a"/>
+        </svg>
+    </div>
+    <div id="banner-text">
+        <h1>Ryan's Chiropractic Pseudoscience</h1>
+        <p id="tagline"><em>Healing you have to believe to feel.</em></p>
+        <p id="banner-date">Today is: <span id="dynamic-date"></span></p>
+        <!-- filled in by initBannerGreeting() in scripts.js using the name cookie -->
+        <p id="greeting-msg"></p>
+    </div>
+</div>
+
+</body>
+</html>
+<!-- END OF FILE: banner.html -->
