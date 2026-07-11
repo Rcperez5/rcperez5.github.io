@@ -2,12 +2,12 @@
     Program name: style.css
     Author: Ryan Perez
     Date created: 06/15/2026
-    Date last edited: 06/24/2026
+    Date last edited: 07/11/2026
     Version: 5.0
     Description: External stylesheet for patient-form.html.
                  Sets fonts, colors, layout, and form element styling
                  for Ryan's Chiropractic Pseudoscience patient portal.
-                 Updated for HW2 - added styles for the Review button,
+                 Styles for the Review button,
                  the review panel, and the inline error/success messages.
 */
 
@@ -110,6 +110,7 @@ p {
 /* --- BANNER IFRAME (HW4) ---
    index.html/thankyou.html load banner.html inside this iframe and pin it
    to the top of the screen so it acts as a fixed/protected header. */
+
 #banner-frame {
     display: block;
     position: fixed;
@@ -122,6 +123,7 @@ p {
 }
 
 /* --- OFFICE LOCATION MAP IFRAME (HW4) --- */
+
 #map-frame {
     width: 100%;
     height: 300px;
@@ -131,6 +133,7 @@ p {
 }
 
 /* --- MAIN CONTENT AREA --- */
+
 #main-content {
     max-width: 860px;
     margin: 25px auto;
@@ -141,6 +144,7 @@ p {
 }
 
 /* --- FORM BUTTONS CONTAINER --- */
+
 #form-buttons {
     text-align: center;
     margin-top: 25px;
@@ -149,6 +153,7 @@ p {
 }
 
 /* --- SUBMIT BUTTON --- */
+
 #btn-submit {
     background-color: #1a7dbf;
     color: #ffffff;
@@ -166,6 +171,7 @@ p {
 }
 
 /* --- RESET BUTTON --- */
+
 #btn-reset {
     background-color: #aaaaaa;
     color: #ffffff;
@@ -181,7 +187,8 @@ p {
     background-color: #777777;
 }
 
-/* --- VALIDATE BUTTON (new for HW3) --- */
+/* --- VALIDATE BUTTON --- */
+
 #btn-validate {
     background-color: #7b3fa0;
     color: #ffffff;
@@ -198,7 +205,8 @@ p {
     background-color: #5a2d73;
 }
 
-/* --- REVIEW BUTTON (new for HW2) --- */
+/* --- REVIEW BUTTON --- */
+
 #btn-review {
     background-color: #2e7d32;
     color: #ffffff;
@@ -215,7 +223,8 @@ p {
     background-color: #1b5e20;
 }
 
-/* --- REVIEW PANEL (new for HW2) --- */
+/* --- REVIEW PANEL --- */
+
 #review-panel {
     background-color: #f0f7ff;
     border: 1px solid #a0c4e0;
@@ -225,8 +234,8 @@ p {
 
 /* --- FOOTER ---
    HW4: fixed to the bottom of the screen with plain CSS (not an iframe)
-   so it stays visible while scrolling - the second, non-redundant
-   "protect this part of the page" technique alongside the header iframe. */
+   so it stays visible while scrolling
+-------------------*/
 #footer {
     background-color: #0d3d5e;
     color: #d6ecf8;
@@ -261,6 +270,7 @@ p {
 }
 
 /* Contact Us button in footer */
+
 #btn-contact {
     background-color: #1a7dbf;
     color: #ffffff;
@@ -282,6 +292,7 @@ p {
    ====================================================== */
 
 /* Intro note paragraph */
+
 .intro-note {
     background-color: #d6ecf8;
     border-left: 4px solid #1a7dbf;
@@ -292,6 +303,7 @@ p {
 }
 
 /* Section headings inside the form */
+
 .section-heading {
     background-color: #1a7dbf;
     color: #ffffff;
@@ -303,6 +315,7 @@ p {
 }
 
 /* The TABLE used to align form fields neatly */
+
 .form-table {
     width: 100%;
     border-collapse: collapse;
@@ -310,6 +323,7 @@ p {
 }
 
 /* Label cells - right-aligned for clean alignment */
+
 .label-cell {
     width: 220px;
     font-weight: bold;
@@ -435,6 +449,7 @@ input[type="range"] {
 }
 
 /* Name of "logo" svg defined in banner */
+
 #logo {
     flex-shrink: 0;
 }
