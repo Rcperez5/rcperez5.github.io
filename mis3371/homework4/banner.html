@@ -5,11 +5,7 @@
     Version: 1.0
     Description: Small header "fragment" page. index.html and thankyou.html
                  both load this file inside an <iframe> and pin it to the
-                 top of the screen with CSS (position: fixed). This is the
-                 iframe used to satisfy the "protect the header" part of
-                 HW4, separate from the clickable map iframe in the body.
-                 Also shows the cookie-based welcome message
-                 (see initBannerGreeting() in scripts.js).
+                 top of the screen with CSS (position: fixed).
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -37,11 +33,9 @@
         <h1>Ryan's Chiropractic Pseudoscience</h1>
         <p id="tagline"><em>Healing you have to believe to feel.</em></p>
         <p id="banner-date">Today is: <span id="dynamic-date"></span></p>
-        <!-- filled in by initBannerGreeting() in scripts.js using the name cookie -->
         <p id="greeting-msg"></p>
     </div>
 </div>
 
 </body>
 </html>
-<!-- END OF FILE: banner.html -->
