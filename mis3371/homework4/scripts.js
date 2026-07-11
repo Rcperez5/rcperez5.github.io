@@ -2,7 +2,7 @@
     Program name: scripts.js
     Author: Ryan Perez
     Date created: 06/20/2026
-    Date last edited: 07/06/2026
+    Date last edited: 07/10/2026
     Version: 4.0
     Description: External JS file for the HW3 patient registration form.
                  Handles: live field validation, password match check,
@@ -19,6 +19,7 @@
    as the user drags it. Called via oninput on the range input.
    Reference: w3schools.com/jsref/event_oninput.asp
    ============================================================ */
+
 function updateSlider(val) {
     document.getElementById("rating-display").textContent = val;
 }
@@ -28,6 +29,7 @@ function updateSlider(val) {
    FIRST NAME CHECK - runs as the user types in the first name
    box. Only letters, apostrophes, and dashes are allowed.
    ============================================================ */
+
 function checkFname() {
     var val = document.getElementById("fname").value;
     var msg = document.getElementById("fname-msg");
@@ -55,6 +57,7 @@ function checkFname() {
    LAST NAME CHECK - same idea as first name, but also allows
    the numbers 2-5 and spaces (for suffixes like "Smith 3rd").
    ============================================================ */
+
 function checkLname() {
     var val = document.getElementById("lname").value;
     var msg = document.getElementById("lname-msg");
@@ -82,6 +85,7 @@ function checkLname() {
    SSN CHECK - runs on blur (when they tab out of the field).
    Looks for the XXX-XX-XXXX format (dashes are optional).
    ============================================================ */
+
 function checkSSN() {
     var val = document.getElementById("ssn").value;
     var msg = document.getElementById("ssn-msg");
@@ -105,6 +109,7 @@ function checkSSN() {
    EMAIL CHECK - runs on blur. Looks for the basic
    something@something.something pattern.
    ============================================================ */
+
 function checkEmail() {
     var val = document.getElementById("email").value;
     var msg = document.getElementById("email-msg");
@@ -128,6 +133,7 @@ function checkEmail() {
    PHONE CHECK - runs on blur. Requires the exact
    000-000-0000 format.
    ============================================================ */
+
 function checkPhone() {
     var val = document.getElementById("phone").value;
     var msg = document.getElementById("phone-msg");
@@ -150,6 +156,7 @@ function checkPhone() {
 /* ============================================================
    ADDRESS LINE 1 CHECK - required, 2-30 characters.
    ============================================================ */
+
 function checkAddr1() {
     var val = document.getElementById("addr1").value;
     var msg = document.getElementById("addr1-msg");
@@ -182,7 +189,7 @@ function checkAddr2() {
     msg.textContent = "";
 
     if (val.length === 0) {
-        // this field is optional, so a blank value is perfectly fine
+        // this field is optional, so a blank value is fine
         return;
     }
 
@@ -199,6 +206,7 @@ function checkAddr2() {
 /* ============================================================
    CITY CHECK - required, 2-30 characters.
    ============================================================ */
+
 function checkCity() {
     var val = document.getElementById("city").value;
     var msg = document.getElementById("city-msg");
@@ -328,6 +336,7 @@ function checkPassword() {
     }
 
     // extra rules: no quote character, and can't contain the username or name
+    
     var safetyError = getPasswordSafetyError(pw);
     if (safetyError !== "") {
         msg.textContent = safetyError;
@@ -344,6 +353,7 @@ function checkPassword() {
    PASSWORD MATCH CHECK - runs as they type in the confirm box.
    Just a simple comparison between the two fields.
    ============================================================ */
+
 function checkPasswordMatch() {
     var pw1 = document.getElementById("password").value;
     var pw2 = document.getElementById("password2").value;
@@ -369,6 +379,7 @@ function checkPasswordMatch() {
    Rules: 5-20 chars, first char must be a letter, only letters/
    numbers/underscore/dash, no spaces. Converts to lowercase.
    ============================================================ */
+
 function checkUsername() {
     var field = document.getElementById("username");
     var msg   = document.getElementById("username-msg");
@@ -412,6 +423,7 @@ function checkUsername() {
    (Textareas don't support the HTML pattern attribute, so this
    rule is handled in JavaScript instead.)
    ============================================================ */
+
 function checkSymptoms() {
     var val = document.getElementById("symptoms").value;
     var msg = document.getElementById("symptoms-msg");
@@ -431,6 +443,7 @@ function checkSymptoms() {
    plain text input in MM/DD/YYYY format
    Called oninput and onblur from the dob field.
    ============================================================ */
+
 function isValidDOB(val) {
     if (val.length === 0) return false;
 
@@ -526,6 +539,7 @@ function showReview() {
 
     // (querySelectorAll gives us a NodeList, so we step through it by hand
     //  instead of using .forEach - this way it works in every browser)
+    
     var condBoxes  = document.querySelectorAll("input[name='conditions']:checked");
     var conditions = [];
     for (var i = 0; i < condBoxes.length; i++) {
@@ -728,6 +742,7 @@ function validateForm() {
    sees XXX-XX-XXXX taking shape without having to type the dashes
    themselves.
    ============================================================ */
+
 function formatSSN() {
     var field = document.getElementById("ssn");
     var raw   = field.value;
@@ -758,6 +773,7 @@ function formatSSN() {
    CLEAR ALL MESSAGES - called when the CLEAR AND START OVER
    button is clicked.
    ============================================================ */
+
 function clearAllMessages() {
     var messageIds = [
         "fname-msg", "lname-msg", "dob-msg", "ssn-msg",
@@ -788,6 +804,7 @@ function clearAllMessages() {
    If any errors remain, they stay visible so the user can fix
    them, and the Submit button stays hidden.
    ============================================================ */
+
 function validateAllFields() {
 
     /* clear the validate message area first, before we count errors.
@@ -826,6 +843,7 @@ function validateAllFields() {
 
     // now count how many red error messages are showing on the page.
     // we find every element with class "field-note" and check its color.
+    
     var errorCount = 0;
     var allMessages = document.querySelectorAll(".field-note");
     for (var i = 0; i < allMessages.length; i++) {
@@ -865,6 +883,7 @@ function validateAllFields() {
         }
     }
 }
+
 /* ============================================================
    BANNER DATE DISPLAY - builds a readable date string like
    "Sunday, June 28th, 2026" and writes it into the
@@ -875,7 +894,7 @@ function validateAllFields() {
    ============================================================ */
 function setBannerDate() {
     var dateSpan = document.getElementById("dynamic-date");
-    if (!dateSpan) return; // safety check - exit quietly if the span is not on this page
+    if (!dateSpan) return;
  
     var days   = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var months = ["January", "February", "March", "April", "May", "June",
@@ -904,20 +923,13 @@ setBannerDate();
 
 
 /* ============================================================
-   HW4 ADDITIONS BELOW
-   Fetch API, iframe-related cookie greeting, and Local Storage
-   autosave/restore for the registration form.
-   ============================================================ */
-
-
-/* ============================================================
    FETCH API - loads the "Previous Diagnoses" checkbox list from
    conditions.json instead of hardcoding it in the HTML.
    Reference: w3schools.com/js/js_api_fetch.asp
    ============================================================ */
 async function loadConditions() {
     var container = document.getElementById("conditions-container");
-    if (!container) return; // not on this page, exit quietly
+    if (!container) return;
 
     try {
         var response = await fetch("conditions.json");
@@ -934,9 +946,10 @@ async function loadConditions() {
         container.innerHTML = html;
 
     } catch (err) {
-        // fetch failed (missing file, or the page was opened directly from
-        // disk instead of a server) - fall back to a basic hardcoded list
-        // so the form still works
+        /* fetch failed (missing file, or the page was opened directly from
+        disk instead of a server) - fall back to a basic hardcoded list
+        so the form still works */
+        
         console.log("Could not load conditions.json, using fallback list.", err);
         container.innerHTML =
             '<p class="checkbox-prompt">Check all conditions you have been diagnosed with:</p>' +
@@ -948,9 +961,10 @@ async function loadConditions() {
 
 
 /* ============================================================
-   COOKIE HELPERS
+   COOKIES
    Reference: w3schools.com/js/js_cookies.asp
    ============================================================ */
+
 function setCookie(name, value, hours) {
     var d = new Date();
     d.setTime(d.getTime() + (hours * 60 * 60 * 1000));
@@ -979,6 +993,7 @@ function eraseCookie(name) {
    cookie and shows "Welcome back, X" or "Welcome, new user!",
    plus a link to clear the cookie/local storage and start over.
    ============================================================ */
+
 function initBannerGreeting() {
     var greetSpan = document.getElementById("greeting-msg");
     if (!greetSpan) return; // not on this page (only banner.html has it)
@@ -1006,8 +1021,9 @@ function initBannerGreeting() {
 /* ============================================================
    NAME COOKIE - called onblur from the First Name field. Only
    saves the cookie if "Remember Me" is checked. 48-hour expiry
-   per the assignment's security recommendation.
+   per assignment.
    ============================================================ */
+
 function saveNameCookie() {
     var rememberBox = document.getElementById("remember-me");
     var fname = document.getElementById("fname").value.trim();
@@ -1020,9 +1036,10 @@ function saveNameCookie() {
 
 /* ============================================================
    REMEMBER ME CHECKBOX - unchecking it immediately wipes the
-   cookie and any locally-saved form data, per the assignment.
+   cookie and any locally-saved form data
    Re-checking it saves the cookie again right away.
    ============================================================ */
+
 function handleRememberMeChange() {
     var rememberBox = document.getElementById("remember-me");
 
@@ -1042,6 +1059,7 @@ function handleRememberMeChange() {
    the form, so it can be restored on a return visit.
    Reference: w3schools.com/jsref/prop_win_localstorage.asp
    ============================================================ */
+
 function setupLocalStorageAutosave() {
     var form = document.getElementById("registration-form");
     if (!form) return; // not on this page
@@ -1110,6 +1128,7 @@ function saveFormToLocalStorage() {
    Runs on page load if the name cookie is present, filling the
    form back in with whatever was saved locally last time.
    ============================================================ */
+
 function setRadioValue(name, value) {
     if (!value) return;
     var el = document.querySelector("input[name='" + name + "'][value='" + value + "']");
@@ -1150,6 +1169,7 @@ function loadFormFromLocalStorage() {
 
     // the conditions checkboxes are still loading via fetch when this runs,
     // so give them a moment to exist in the DOM before checking them
+    
     setTimeout(function () {
         if (data.conditions) {
             for (var i = 0; i < data.conditions.length; i++) {
@@ -1162,7 +1182,7 @@ function loadFormFromLocalStorage() {
 
 
 /* ============================================================
-   PAGE INIT - ties the HW4 pieces together once the page loads.
+   PAGE INITIALIZATION - ties the HW4 pieces together once the page loads.
    ============================================================ */
 function initPatientForm() {
     loadConditions(); // Fetch API
