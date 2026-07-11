@@ -783,13 +783,33 @@ function clearAllMessages() {
    VALIDATE ALL FIELDS - called when the VALIDATE button is
    clicked. Runs every individual field check, then counts how
    many error messages are currently showing on the page.
-
+ 
    If the count is zero, the Submit button is revealed.
    If any errors remain, they stay visible so the user can fix
    them, and the Submit button stays hidden.
    ============================================================ */
+/* ============================================================
+   REQUIRED FIELD CHECK - used only by validateAllFields(). The
+   individual checkX() functions above intentionally stay silent
+   on an empty field (so they don't nag the user while typing),
+   so this fills in the missing "this field is required" message
+   when the VALIDATE button is clicked and the field was left
+   blank.
+   ============================================================ */
+function requireField(fieldId, msgId, label) {
+    var val = document.getElementById(fieldId).value;
+    if (val.trim().length === 0) {
+        var msg = document.getElementById(msgId);
+        msg.style.color = "red";
+        msg.textContent = label + " is required.";
+        return false;
+    }
+    return true;
+}
+ 
+ 
 function validateAllFields() {
-
+ 
     /* clear the validate message area first, before we count errors.
     if we don't do this, the red message from a PREVIOUS failed run
     gets picked up by the error-counting loop below and counts as 1
@@ -799,15 +819,15 @@ function validateAllFields() {
     var validateMsg = document.getElementById("validate-msg");
     validateMsg.textContent = "";
     validateMsg.style.color = "";
-
+ 
     // force the username to lowercase one more time
     var usernameField = document.getElementById("username");
     usernameField.value = usernameField.value.toLowerCase();
-
+ 
     // force the email to lowercase too
     var emailField = document.getElementById("email");
     emailField.value = emailField.value.toLowerCase();
-
+ 
     // run every single field checker
     checkFname();
     checkLname();
@@ -823,7 +843,31 @@ function validateAllFields() {
     checkUsername();
     checkPassword();
     checkPasswordMatch();
-
+ 
+    // the checkers above intentionally leave blank fields silent (so they
+    // don't nag the user while typing), so catch any required field that
+    // was left empty here, on submit-check.
+    requireField("fname", "fname-msg", "First name");
+    requireField("lname", "lname-msg", "Last name");
+    requireField("dob", "dob-msg", "Date of birth");
+    requireField("ssn", "ssn-msg", "SSN");
+    requireField("email", "email-msg", "Email");
+    requireField("phone", "phone-msg", "Phone");
+    requireField("addr1", "addr1-msg", "Address line 1");
+    requireField("city", "city-msg", "City");
+    requireField("zip", "zip-msg", "ZIP code");
+    requireField("username", "username-msg", "Username");
+    requireField("password", "pw-msg", "Password");
+ 
+    // password2 is a special case: checkPasswordMatch() clears the message
+    // but never sets a color when the field is empty, so requireField needs
+    // to set the color itself here too
+    if (document.getElementById("password2").value.trim().length === 0) {
+        var pw2Msg = document.getElementById("pw2-msg");
+        pw2Msg.style.color = "red";
+        pw2Msg.textContent = "Please re-enter your password.";
+    }
+ 
     // now count how many red error messages are showing on the page.
     // we find every element with class "field-note" and check its color.
     var errorCount = 0;
@@ -834,7 +878,7 @@ function validateAllFields() {
             errorCount = errorCount + 1;
         }
     }
-
+ 
     // also check that the required radio buttons have something selected
     // (these don't have inline error spans, so we check them here)
     var genderSelected  = document.querySelectorAll("input[name='gender']:checked").length > 0;
@@ -842,7 +886,7 @@ function validateAllFields() {
     var insSelected     = document.querySelectorAll("input[name='insurance']:checked").length > 0;
     var smokerSelected  = document.querySelectorAll("input[name='smoker']:checked").length > 0;
     var stateSelected   = document.getElementById("state").value !== "";
-
+ 
     if (!genderSelected || !vaccSelected || !insSelected || !smokerSelected || !stateSelected) {
         errorCount = errorCount + 1;
         validateMsg.style.color = "red";
@@ -850,7 +894,7 @@ function validateAllFields() {
     } else if (errorCount === 0) {
         validateMsg.textContent = "";
     }
-
+ 
     if (errorCount === 0) {
         // everything passed - show the submit button
         document.getElementById("btn-submit").style.display = "inline-block";
