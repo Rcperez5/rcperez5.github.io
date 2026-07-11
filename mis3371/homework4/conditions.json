@@ -1,0 +1,8 @@
+[
+    { "value": "Hypertension",    "label": "Hypertension" },
+    { "value": "Asthma",          "label": "Asthma" },
+    { "value": "Arthritis",       "label": "Arthritis" },
+    { "value": "Diabetes",        "label": "Diabetes" },
+    { "value": "Heart Disease",   "label": "Heart Disease" },
+    { "value": "None of the Above", "label": "None of the Above" }
+]
