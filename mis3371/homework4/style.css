@@ -1,0 +1,442 @@
+/*
+    Program name: style.css
+    Author: Ryan Perez
+    Date created: 06/15/2026
+    Date last edited: 06/24/2026
+    Version: 5.0
+    Description: External stylesheet for patient-form.html.
+                 Sets fonts, colors, layout, and form element styling
+                 for Ryan's Chiropractic Pseudoscience patient portal.
+                 Updated for HW2 - added styles for the Review button,
+                 the review panel, and the inline error/success messages.
+*/
+
+/* ======================================================
+   GLOBAL / TAG SELECTORS
+   ====================================================== */
+
+/* Non-default font and background for the whole page */
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background-color: #eaf3f8;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 0;
+    /* HW4: room at the top/bottom so the fixed banner iframe and fixed
+       footer don't cover the page content */
+    padding-top: 130px;
+    padding-bottom: 120px;
+}
+
+/* Headings use a different font from body text */
+h1, h2, h3, h4 {
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    color: #0d3d5e;
+}
+
+h2 {
+    margin-top: 10px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #1a7dbf;
+    padding-bottom: 5px;
+}
+
+/* Anchor / hyperlink styles */
+a {
+    color: #1a7dbf;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #8a5bbf;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0d3d5e;
+}
+
+/* Paragraph defaults */
+p {
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+/* ======================================================
+   ID SELECTORS
+   ====================================================== */
+
+/* --- BANNER --- */
+#banner {
+    background-color: #1a7dbf;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    gap: 20px;
+}
+
+#banner-text h1 {
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    font-size: 1.8em;
+    letter-spacing: 1px;
+}
+
+#banner-text p {
+    margin: 2px 0;
+    color: #d6ecf8;
+    font-size: 0.9em;
+}
+
+#banner-date {
+    font-weight: bold;
+    color: #ffffff !important;
+}
+
+/* Cookie-based welcome message inside banner.html - see initBannerGreeting() in scripts.js */
+#greeting-msg {
+    margin: 4px 0 0 0;
+    font-size: 0.85em;
+    color: #ffffff;
+}
+
+#greeting-msg a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* --- BANNER IFRAME (HW4) ---
+   index.html/thankyou.html load banner.html inside this iframe and pin it
+   to the top of the screen so it acts as a fixed/protected header. */
+#banner-frame {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 130px;
+    border: none;
+    z-index: 1000;
+}
+
+/* --- OFFICE LOCATION MAP IFRAME (HW4) --- */
+#map-frame {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #a0c4e0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+/* --- MAIN CONTENT AREA --- */
+#main-content {
+    max-width: 860px;
+    margin: 25px auto;
+    background-color: #ffffff;
+    padding: 25px 35px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* --- FORM BUTTONS CONTAINER --- */
+#form-buttons {
+    text-align: center;
+    margin-top: 25px;
+    padding: 15px 0;
+    border-top: 1px solid #c5dde8;
+}
+
+/* --- SUBMIT BUTTON --- */
+#btn-submit {
+    background-color: #1a7dbf;
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px;
+    font-size: 1em;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+#btn-submit:hover {
+    background-color: #0d3d5e;
+}
+
+/* --- RESET BUTTON --- */
+#btn-reset {
+    background-color: #aaaaaa;
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px;
+    font-size: 1em;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#btn-reset:hover {
+    background-color: #777777;
+}
+
+/* --- VALIDATE BUTTON (new for HW3) --- */
+#btn-validate {
+    background-color: #7b3fa0;
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px;
+    font-size: 1em;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+#btn-validate:hover {
+    background-color: #5a2d73;
+}
+
+/* --- REVIEW BUTTON (new for HW2) --- */
+#btn-review {
+    background-color: #2e7d32;
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px;
+    font-size: 1em;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+#btn-review:hover {
+    background-color: #1b5e20;
+}
+
+/* --- REVIEW PANEL (new for HW2) --- */
+#review-panel {
+    background-color: #f0f7ff;
+    border: 1px solid #a0c4e0;
+    border-radius: 6px;
+    padding: 20px 25px;
+}
+
+/* --- FOOTER ---
+   HW4: fixed to the bottom of the screen with plain CSS (not an iframe)
+   so it stays visible while scrolling - the second, non-redundant
+   "protect this part of the page" technique alongside the header iframe. */
+#footer {
+    background-color: #0d3d5e;
+    color: #d6ecf8;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px 35px;
+    font-size: 0.85em;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+#footer a {
+    color: #a8d4ee;
+}
+
+#footer a:visited {
+    color: #c8a8ee;
+}
+
+#footer-center {
+    text-align: center;
+    flex: 1;
+}
+
+#footer-right {
+    text-align: right;
+}
+
+/* Contact Us button in footer */
+#btn-contact {
+    background-color: #1a7dbf;
+    color: #ffffff;
+    border: none;
+    padding: 8px 20px;
+    font-size: 0.95em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+#btn-contact:hover {
+    background-color: #c8e6f5;
+    color: #0d3d5e;
+}
+
+/* ======================================================
+   CLASS SELECTORS
+   ====================================================== */
+
+/* Intro note paragraph */
+.intro-note {
+    background-color: #d6ecf8;
+    border-left: 4px solid #1a7dbf;
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+/* Section headings inside the form */
+.section-heading {
+    background-color: #1a7dbf;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+
+/* The TABLE used to align form fields neatly */
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+/* Label cells - right-aligned for clean alignment */
+.label-cell {
+    width: 220px;
+    font-weight: bold;
+    padding: 8px 12px 8px 0;
+    vertical-align: top;
+    color: #0d3d5e;
+    font-size: 0.92em;
+}
+
+/* Input cells */
+.input-cell {
+    padding: 6px 4px;
+    vertical-align: middle;
+}
+
+/* Inline note / error / success text below fields */
+.field-note {
+    font-size: 0.8em;
+    color: #555555;
+    margin-left: 6px;
+}
+
+/* Required star */
+.required-star {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+/* Radio button labels */
+.radio-label {
+    margin-right: 16px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Checkbox labels */
+.check-label {
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Small prompt text above checkboxes */
+.checkbox-prompt {
+    margin: 0 0 5px 0;
+    font-style: italic;
+    font-size: 0.88em;
+}
+
+/* Middle Initial input - narrow */
+.mi-field {
+    width: 40px !important;
+    text-align: center;
+}
+
+/* ZIP code input */
+.zip-field {
+    width: 90px !important;
+}
+
+/* Slider label text */
+.slider-label {
+    font-size: 0.85em;
+    color: #555555;
+}
+
+/* ======================================================
+   FORM INPUT / ELEMENT STYLES (tag selectors)
+   ====================================================== */
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    padding: 5px 8px;
+    border: 1px solid #a0c0d8;
+    border-radius: 3px;
+    font-family: Georgia, serif;
+    font-size: 0.9em;
+    color: #1a1a1a;
+    background-color: #f7fbfd;
+    width: 220px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #1a7dbf;
+    background-color: #ffffff;
+}
+
+select {
+    padding: 5px 6px;
+    border: 1px solid #a0c0d8;
+    border-radius: 3px;
+    font-family: Georgia, serif;
+    font-size: 0.9em;
+    background-color: #f7fbfd;
+    margin: 0 6px;
+}
+
+textarea {
+    border: 1px solid #a0c0d8;
+    border-radius: 3px;
+    font-family: Georgia, serif;
+    font-size: 0.9em;
+    padding: 5px;
+    background-color: #f7fbfd;
+    resize: vertical;
+}
+
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #1a7dbf;
+}
+
+input[type="range"] {
+    margin: 0 10px;
+    cursor: pointer;
+    accent-color: #1a7dbf;
+}
+
+/* Name of "logo" svg defined in banner */
+#logo {
+    flex-shrink: 0;
+}
+
+/* END OF FILE: style.css */
