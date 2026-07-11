@@ -2,8 +2,8 @@
     Program name: homework3.html
     Author: Ryan Perez
     Date created: 06/15/2026
-    Date last edited: 07/02/2026
-    Version: 8.0
+    Date last edited: 07/10/2026
+    Version: 9.0
     Description: HW3 patient registration form for Ryan's Chiropractic
                  Pseudoscience. All validation is in scripts.js (except date).
                  Every field has a title attribute, a regex pattern,
@@ -36,12 +36,13 @@
 <body>
 
 <!-- ==================== HEADER / BANNER ====================
-     HW4: the banner now lives in its own file (banner.html) and is
+     Per HW4 the banner now lives in its own file (banner.html) and is
      loaded here through an <iframe>. style.css pins #banner-frame to
      the top of the screen with position:fixed, so the header stays
-     visible while the page scrolls. This iframe is the "protect the
-     header" trick, kept separate from the clickable map iframe
-     further down in the body so the two iframe uses aren't redundant. -->
+     visible while the page scrolls. This iframe protects the
+     header and is kept separate from the clickable map iframe
+     further down in the body. -->
+
 <iframe id="banner-frame" src="banner.html?v=2" title="Site header" scrolling="no"></iframe>
     
 <!-- ==================== MAIN CONTENT ==================== -->
@@ -316,7 +317,7 @@
                 <td class="input-cell">
                     <!--
                         Allows ZIP+4 format (77002-1234). onblur truncates to 5 digits and redisplays.
-                        Text instead of number for ZIP per assignment
+                        Text instead of number for ZIP
                     -->
                     <input type="text" id="zip" name="zip"
                            placeholder="77002" maxlength="10" minlength="5" required
@@ -559,7 +560,7 @@
     <div id="review-panel" style="display:none; margin-top:30px; border-top:2px solid #1a7dbf; padding-top:20px;">
     </div>
 
-</div><!-- end main-content -->
+</div> <!-- end main-content -->
 
 <!-- ==================== FOOTER ==================== -->
 <div id="footer">
