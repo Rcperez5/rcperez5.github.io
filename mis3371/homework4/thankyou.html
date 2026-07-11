@@ -1,0 +1,55 @@
+<!--
+    Program name: thankyou.html
+    Author: Ryan Perez
+    Date created: 06/15/2026
+    Date last edited: 06/20/2026
+    Version: 4.0
+    Description: Thank-you confirmation page displayed after the
+                 patient registration form is submitted.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Ryan's Chiropractic Pseudoscience</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+
+<!-- HEADER / BANNER - HW4: loaded from banner.html via iframe, see index.html for notes -->
+<iframe id="banner-frame" src="banner.html" title="Site header" scrolling="no"></iframe>
+
+<div id="main-content" style="text-align:center; padding: 60px 35px;">
+    <h2>Thank you for your submission.</h2>
+    <p>A member of our team will be in touch with you shortly to confirm your appointment.</p>
+    <p><a href="index.html">&larr; Return to Registration Form</a></p>
+</div>
+
+<!-- FOOTER (matches patient-form.html) -->
+<div id="footer">
+    <div id="footer-left">
+        <strong>Ryan's Chiropractic Pseudoscience</strong><br>
+        4000 Cougar Way, Suite 500<br>
+        Houston, TX 77027<br>
+        (713) 555-5555
+    </div>
+    <div id="footer-center">
+        <button id="btn-contact"
+                onclick="alert('Contact us at info@ryanschiropseudoscience.com or call (713) 555-5555')">
+            Contact Us
+        </button>
+    </div>
+    <div id="footer-right">
+        <a href="https://www.facebook.com" target="_blank">Facebook</a> &nbsp;|&nbsp;
+        <a href="https://www.twitter.com"  target="_blank">Twitter/X</a> &nbsp;|&nbsp;
+        <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+        <br><br>
+        <small>&copy; 2026 Ryan's Chiropractic Pseudoscience. All rights reserved.</small>
+    </div>
+</div>
+
+<!-- END OF FILE: thankyou.html -->
+</body>
+</html>
