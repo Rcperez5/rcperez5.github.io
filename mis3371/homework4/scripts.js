@@ -20,9 +20,7 @@
    Reference: w3schools.com/jsref/event_oninput.asp
    ============================================================ */
 
-function updateSlider(val) {
-    document.getElementById("rating-display").textContent = val;
-}
+
 
 
 /* ============================================================
